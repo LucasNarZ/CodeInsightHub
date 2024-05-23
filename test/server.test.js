@@ -1,7 +1,7 @@
 
 const request = require("supertest");
 //import request from 'supertest';
-const app = require("../src/server.js");
+const app = require("../src/server");
 //import app from '../src/server.js'
 const randomstring = require("randomstring");
 //import randomstring from 'randomstring';
@@ -24,12 +24,17 @@ describe('POST /pessoas', () => {
         });
 
         
-        test('should respond with a header location with /pessoas/(added person id)', () => {
-
+        test('should respond with a header location with /pessoas/(added person id)', async () => {
+            const response = await request(app).post('/pessoas').send({
+                apelido: "a",
+                nome: randomstring.generate({length:12,charset:'alphabetic'}),
+                nascimento: "0000-00-00",
+                stack:[]
+            });
+            expect(response.headers.location).toBe("/pessoas/");
         });
         
-        test('shound respond with a body with the new added person', () => {
-
+        test('shound respond with a body with the new added person', async () => {
         });
 
     });
