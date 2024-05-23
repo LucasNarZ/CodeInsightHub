@@ -1,7 +1,10 @@
 
-import request from 'supertest';
-import app from '../src/server.js'
-import randomstring from 'randomstring';
+const request = require("supertest");
+//import request from 'supertest';
+const app = require("../src/server.js");
+//import app from '../src/server.js'
+const randomstring = require("randomstring");
+//import randomstring from 'randomstring';
 
 
 
