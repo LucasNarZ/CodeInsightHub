@@ -1,8 +1,7 @@
-import express from 'express';
-import { PrismaClient } from '@prisma/client';
+const express = require("express");
+const { PrismaClient } = require("@prisma/client")
 
 const prisma = new PrismaClient();
-//teste
 const app = express();
 
 app.use(express.json());
@@ -21,6 +20,7 @@ app.delete('/all', async (req, res) => {
 
 app.post('/pessoas',async (req, res) => {
     try{
+        
         const birthRegex = /^\d{4}-\d{2}-\d{2}$/
         Object.keys(req.body).forEach(key => {
             //check if there are any parameters other than stack = null and throw the error
@@ -32,11 +32,11 @@ app.post('/pessoas',async (req, res) => {
                 req.body.stack = [];
             }
             //check if birchday is in correct format
-            if(key == "nascimento" && !req.body[key].test(birthRegex)){
+            if(key == "nascimento" && !(birthRegex).test(req.body[key])){
                 throw {name:"PrismaClientValidationError"}
             }
         })
-        res.status(201);
+        
         //creates a new user in the database
         const result = await prisma.user.create({
             data: {...req.body}
@@ -44,23 +44,26 @@ app.post('/pessoas',async (req, res) => {
         const userId = result.id;
 
         //return the status OK with location
-        
-        res.setHeader('location', '/pessoas/'+userId);
+        res.status(201);
+        res.setHeader('location', '/pessoas/' + userId);
         res.json(userId);
     }catch(err){
+        console.log("asdasda")
         //for repeated user name
         if(err.name == "PrismaClientKnownRequestError"){
             res.status(422);
             res.json(err);
-        //for null parameter
-        }else if(err.name == "PrismaClientNullError"){
-            res.status(422);
-            res.json(err);
+        
+        //for null parameters
+        //TO DO
+
         //for out of type parameter
         }else if(err.name == "PrismaClientValidationError"){
             res.status(400);
             res.json(err);
         }else{
+            console.log(err);
+            res.status(404);
             res.json(err);
         }
 
