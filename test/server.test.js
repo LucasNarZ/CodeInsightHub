@@ -7,6 +7,10 @@ async function sendPostRequest(data) {
     return await request(app).post('/pessoas').send(data);
 }
 
+async function sendGetByIdRequest(id){
+    return await request(app).get('/pessoas/' + id)
+}
+
 beforeAll(() => {
     server.close();
 });
@@ -95,5 +99,38 @@ describe('POST /pessoas', () => {
             });
         });
         
+    });
+});
+
+describe('GET /pessoas/[:id]', () => {
+    describe('valid search', () => {
+        test('should respond with status code 200 OK', async () => {
+            const name = randomstring.generate({ length: 12, charset: 'alphabetic' });
+            const { id } = sendPostRequest({
+                apelido: name,
+                nome: name,
+                nascimento: "0000-00-00",
+                stack: []
+            });
+            const { status } = sendGetByIdRequest(id);
+            expect(status).toBe(200);
+        });
+
+        test('should respond with the searched person data', async () => {
+            const name = randomstring.generate({ length: 12, charset: 'alphabetic' });
+            const user = sendPostRequest({
+                apelido: name,
+                nome: name,
+                nascimento: "0000-00-00",
+                stack: []
+            });
+            const { body } = sendGetByIdRequest(user.id);
+            expect(body).toMatchObject({
+                apelido: name,
+                nome: name,
+                nascimento: "0000-00-00",
+                stack: []
+            });
+        })
     });
 });
