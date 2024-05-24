@@ -25,7 +25,7 @@ app.post('/pessoas',async (req, res) => {
         Object.keys(req.body).forEach(key => {
             //check if there are any parameters other than stack = null and throw the error
             if(req.body[key] == null && key != "stack"){
-                throw {name:"PrismaClientNullError"};
+                throw {name:"PrismaNullError"};
             }
             //check if the stack is null to switch to []
             if(key == "stack" && req.body[key] == null){
@@ -33,7 +33,7 @@ app.post('/pessoas',async (req, res) => {
             }
             //check if birchday is in correct format
             if(key == "nascimento" && !(birthRegex).test(req.body[key])){
-                throw {name:"PrismaClientValidationError"}
+                throw {name:"PrismaValidationError"}
             }
         })
         
@@ -46,35 +46,26 @@ app.post('/pessoas',async (req, res) => {
         //return the status OK with location
         res.status(201);
         res.setHeader('location', '/pessoas/' + userId);
-        res.json(userId);
+        res.json(result);
     }catch(err){
-        console.log("asdasda")
-        //for repeated user name
-        if(err.name == "PrismaClientKnownRequestError"){
-            res.status(422);
-            res.json(err);
         
-        //for null parameters
-        //TO DO
-
-        //for out of type parameter
-        }else if(err.name == "PrismaClientValidationError"){
+        if(err.name == "PrismaNullError"){
+            res.status(422);
+            res.json(err.name);
+        }else if(err.name == "PrismaClientKnownRequestError"){
+            res.status(422);
+            res.json(err.name);
+        }else{
             res.status(400);
             res.json(err);
-        }else{
-            console.log(err);
-            res.status(404);
-            res.json(err);
         }
-
-        
     }
 })
 
 
 
-app.listen(port, () => {
+let server = app.listen(port, () => {
     console.log("Server is running at port", port);
 });
 
-module.exports = app;
+module.exports = {app, server};
