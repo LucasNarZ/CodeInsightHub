@@ -8,7 +8,7 @@ async function sendPostRequest(data) {
 }
 
 async function sendGetByIdRequest(id){
-    return await request(app).get('/pessoas/' + id)
+    return await request(app).get('/pessoas/' + id);
 }
 
 beforeAll(() => {
@@ -106,25 +106,25 @@ describe('GET /pessoas/[:id]', () => {
     describe('valid search', () => {
         test('should respond with status code 200 OK', async () => {
             const name = randomstring.generate({ length: 12, charset: 'alphabetic' });
-            const { id } = sendPostRequest({
+            const { id } = await sendPostRequest({
                 apelido: name,
                 nome: name,
                 nascimento: "0000-00-00",
                 stack: []
             });
-            const { status } = sendGetByIdRequest(id);
-            expect(status).toBe(200);
+            const { status } = await sendGetByIdRequest(id);
+            expect( status ).toBe(200);
         });
 
         test('should respond with the searched person data', async () => {
             const name = randomstring.generate({ length: 12, charset: 'alphabetic' });
-            const user = sendPostRequest({
+            const user = await sendPostRequest({
                 apelido: name,
                 nome: name,
                 nascimento: "0000-00-00",
                 stack: []
             });
-            const { body } = sendGetByIdRequest(user.id);
+            const { body } = await sendGetByIdRequest(user.body.id);
             expect(body).toMatchObject({
                 apelido: name,
                 nome: name,
@@ -133,4 +133,12 @@ describe('GET /pessoas/[:id]', () => {
             });
         })
     });
+
+    describe('invalid search', () => {
+        test('should respond status 404', async () => {
+            const {body, status} = await sendGetByIdRequest("5cc226ae-ea08-4b2f-b848-e984069a0");
+            console.log(body);
+            expect(status).toBe(404);
+        })
+    })
 });
