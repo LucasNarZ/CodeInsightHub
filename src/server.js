@@ -70,7 +70,7 @@ app.post('/pessoas',async (req, res) => {
 
 app.get("/pessoas/:id", async (req, res) => {
     try{
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where:{
                 id:req.params.id
             }
@@ -78,6 +78,7 @@ app.get("/pessoas/:id", async (req, res) => {
         res.status(200);
         res.json(user);
     }catch(err){
+        res.status(404);
         console.log(err);
     }
     
