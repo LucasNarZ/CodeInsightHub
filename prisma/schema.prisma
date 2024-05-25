@@ -18,5 +18,5 @@ model User {
   apelido    String   @unique @db.VarChar(32)
   nome       String   @db.VarChar(100)
   nascimento String
-  stack      String[] @db.VarChar(32)
+  stack      String[] @default([]) @db.VarChar(32)
 }
