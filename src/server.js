@@ -74,15 +74,39 @@ app.get("/pessoas/:id", async (req, res) => {
             where:{
                 id:req.params.id
             }
-        })
+        });
+        if(user == null){
+            throw {name:"UserNotFound"}
+        }
         res.status(200);
         res.json(user);
     }catch(err){
         res.status(404);
-        console.log(err);
+        res.json(err);
     }
-    
+})
 
+app.get("/pessoas", async (req, res) => {
+    const searchedString = req.query.t;
+    try{
+        const users = await prisma.user.findMany({
+            where:{
+                OR:[
+                    {apelido:{contains:searchedString}},
+                    {nome:{contains:searchedString}},
+                    {nascimento:{contains:searchedString}}
+                ]
+            },
+            take: 50
+        });
+        const usersStack = (await prisma.user.findMany()).filter((user) => {return user.stack.includes(searchedString)});
+
+        res.status(200);
+        res.json(users.concat(usersStack));
+
+    }catch(err){
+        res.json(err);
+    }
 })
 
 
