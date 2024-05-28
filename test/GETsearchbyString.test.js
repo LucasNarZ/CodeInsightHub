@@ -1,21 +1,21 @@
 const request = require("supertest");
-const { app, server } = require("../src/server");
+const { baseUrl, server } = require("../src/server");
 const randomstring = require("randomstring");
 // Função para enviar uma requisição POST com dados de pessoa e retornar a resposta
 const sendPostRequest = async (data) => {
-    return await request(app).post('/api/pessoas').send(data);
+    return await request(baseUrl).post('/api/pessoas').send(data);
 };
 
 async function StringMatchRequest(string){
-    return await request(app).get("/api/pessoas?t=" + string)
+    return await request(baseUrl).get("/api/pessoas?t=" + string)
 }
 
 const name = randomstring.generate({ length: 12, charset: 'alphabetic' });
 
 
 afterEach(async () => {
-    await request(app).delete("/api/all");
-    server.close();
+    await request(baseUrl).delete("/api/all");
+    server.close()
 });
 
 describe("GET /pessoas?t=[:termo da busca]", () => {
