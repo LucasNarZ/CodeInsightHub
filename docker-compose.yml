@@ -1,5 +1,28 @@
 version: '3.8'
 services:
+  api1: 
+    build: .
+    expose: 
+      - "3000"
+    depends_on:
+      - postgres
+  api2: 
+    build: .
+    expose: 
+      - "3000"
+    depends_on:
+      - postgres
+  nginx:
+    image: nginx
+    hostname: api
+    volumes:
+      - .:/etc/nginx/
+    depends_on:
+      - api1
+      - api2
+      - postgres
+    ports:
+      - "9999:9999"
   postgres:
     image: postgres:10.3
     restart: always
