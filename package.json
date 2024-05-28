@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "server": "node src/server",
-    "test": "npx jest --verbose --forceExit --maxWorkers=1 --detectOpenHandles"
+    "test": "npx jest --verbose --forceExit --maxWorkers=1 --detectOpenHandles",
+    "up": "docker compose up -d"
   },
   "author": "",
   "license": "ISC",
