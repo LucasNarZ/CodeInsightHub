@@ -94,4 +94,10 @@ router.get("/pessoas", async (req, res) => {
     }
 })
 
+router.get("/contagem-pessoas", async (req, res) => {
+    const users = await prisma.user.findMany();
+    console.log(users);
+    res.json(users.length);
+})
+
 module.exports = router;
