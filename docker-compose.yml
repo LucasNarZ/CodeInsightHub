@@ -2,36 +2,36 @@ version: '3.8'
 services:
   api1: 
     build: .
-    expose: 
-      - "3000"
+    environment:
+      - HTTP_PORT=3000
+      - POOL_SIZE=30
     depends_on:
       - postgres
+    network_mode: "host"
   api2: 
     build: .
-    expose: 
-      - "3000"
+    environment:
+      - HTTP_PORT=3001
+      - POOL_SIZE=30
     depends_on:
       - postgres
+    network_mode: "host"
   nginx:
     image: nginx
-    hostname: api
     volumes:
       - .:/etc/nginx/
     depends_on:
       - api1
       - api2
-      - postgres
-    ports:
-      - "9999:9999"
+    network_mode: "host"
   postgres:
-    image: postgres:10.3
+    image: postgres:16.3
     restart: always
     environment:
       - POSTGRES_USER=lucas
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
+    network_mode: "host"
 volumes:
   postgres:
