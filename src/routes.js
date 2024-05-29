@@ -21,10 +21,10 @@ router.post('/pessoas',async (req, res) => {
                 throw {name:"PrismaValidationError"}
             }
         })
-        
+        const search_vector = `${req.body.apelido}     ${req.body.nome}     ${req.body.nascimento}     ${req.body.stack.join("     ")}`;
         //creates a new user in the database
-        const result = await prisma.user.create({
-            data: {...req.body}
+        const result = await prisma.pessoas.create({
+            data: {...req.body, search_vector}
         });
         const userId = result.id;
 
@@ -55,7 +55,7 @@ router.post('/pessoas',async (req, res) => {
 
 router.get("/pessoas/:id", async (req, res) => {
     try{
-        const user = await prisma.user.findFirst({
+        const user = await prisma.pessoas.findFirst({
             where:{
                 id:req.params.id
             }
@@ -74,28 +74,25 @@ router.get("/pessoas/:id", async (req, res) => {
 router.get("/pessoas", async (req, res) => {
     const searchedString = req.query.t;
     try{
-        const users = await prisma.user.findMany({
+        const users = await prisma.pessoas.findMany({
             where:{
-                OR:[
-                    {apelido:{contains:searchedString}},
-                    {nome:{contains:searchedString}},
-                    {nascimento:{contains:searchedString}}
-                ]
+                search_vector:{contains:searchedString}
             },
             take: 50
         });
-        const usersStack = (await prisma.user.findMany()).filter((user) => {return user.stack.includes(searchedString)});
+        const usersStack = (await prisma.pessoas.findMany()).filter((user) => {return user.stack.includes(searchedString)});
 
         res.status(200);
         res.json(users.concat(usersStack));
 
     }catch(err){
+        console.log(err);
         res.json(err);
     }
 })
 
 router.get("/contagem-pessoas", async (req, res) => {
-    const users = await prisma.user.findMany();
+    const users = await prisma.pessoas.findMany();
     console.log(users);
     res.json(users.length);
 })

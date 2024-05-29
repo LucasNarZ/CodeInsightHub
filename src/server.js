@@ -5,9 +5,8 @@ const numCPUs = require('os').cpus().length;
 
 app.use(express.json());
 
-const port = 4000;
+const port = process.env.HTTP_PORT ?? 4000;
 
-const baseUrl = "http://localhost:9999"
 
 const routes = require('./routes');
 const debugRoutes = require("./debugRoutes");
@@ -15,9 +14,15 @@ const debugRoutes = require("./debugRoutes");
 app.use('/api', routes);
 app.use('/api', debugRoutes);
 let server;
-if(cluster.isMaster){
-    for(let i = 0;i < numCPUs; i++){
-        cluster.fork();
+if(port != 4000){
+    if(cluster.isMaster){
+        for(let i = 0;i < numCPUs; i++){
+            cluster.fork();
+        }
+    }else{
+        server = app.listen(port, () => {
+            console.log("Server is running at port", port);
+        });
     }
 }else{
     server = app.listen(port, () => {
@@ -27,4 +32,5 @@ if(cluster.isMaster){
 
 
 
-module.exports = {server, baseUrl};
+
+module.exports = {server, app};
