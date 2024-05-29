@@ -1,13 +1,15 @@
-const request = require("supertest");
-const { baseUrl, server } = require("../src/server");
+
+const { server } = require("../src/server");
+const agent = require("supertest").agent(server);
+
 const randomstring = require("randomstring");
 // Função para enviar uma requisição POST com dados de pessoa e retornar a resposta
 const sendPostRequest = async (data) => {
-    return await request(baseUrl).post('/api/pessoas').send(data);
+    return await agent.post('/api/pessoas').send(data);
 };
 
 async function sendGetByIdRequest(id){
-    return await request(baseUrl).get('/api/pessoas/' + id);
+    return await agent.get('/api/pessoas/' + id);
 };
 
 
@@ -21,7 +23,7 @@ const personModel = {
 
 
 afterEach(async () => {
-    await request(baseUrl).delete("/api/all");
+    await agent.delete("/api/all");
     server.close();
 });
 
