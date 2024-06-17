@@ -32,39 +32,6 @@ describe("GET /pessoas?t=[:termo da busca]", () => {
             expect(new Set(body)).toEqual(new Set([users[2].body, users[0].body]));
 
         })
-
-        // test("using nome", async () => {
-        //     const users = await Promise.all([
-        //         sendPostRequest({ apelido: "a", nome: "teste" + name, nascimento: "0000-00-00", stack: [] }),
-        //         sendPostRequest({ apelido: name, nome: name, nascimento: "0000-00-00", stack: [] }),
-        //         sendPostRequest({ apelido: "b", nome: name + "teste", nascimento: "0000-00-00", stack: [] })
-        //     ]);
-
-        //     const { body } = await StringMatchRequest("teste");
-        //     expect(new Set(body)).toEqual(new Set([users[0].body, users[2].body]));
-        // })
-
-        // test("using nascimento", async () => {
-        //     const users = await Promise.all([
-        //         sendPostRequest({ apelido: "a", nome: "teste" + name, nascimento: "0000-02-01", stack: [] }),
-        //         sendPostRequest({ apelido: name, nome: name, nascimento: "0000-02-00", stack: [] }),
-        //         sendPostRequest({ apelido: "b", nome: name + "teste", nascimento: "0000-02-01", stack: [] })
-        //     ]);
-
-        //     const { body } = await StringMatchRequest("01");
-        //     expect(new Set(body)).toEqual(new Set([users[0].body, users[2].body]));
-        // })
-
-        // test("using stack", async () => {
-        //     const users = await Promise.all([
-        //         sendPostRequest({ apelido: "a", nome: "teste" + name, nascimento: "0000-02-01", stack: ["java"] }),
-        //         sendPostRequest({ apelido: name, nome: name, nascimento: "0000-02-00", stack: [] }),
-        //         sendPostRequest({ apelido: "b", nome: name + "teste", nascimento: "0000-02-01", stack: ["java"] })
-        //     ]);
-
-        //     const { body } = await StringMatchRequest("java");
-        //     expect(new Set(body)).toEqual(new Set([users[0].body, users[2].body]));
-        // })
     })
 
     describe("other details", () => {
