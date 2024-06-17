@@ -7,7 +7,12 @@ services:
       - POOL_SIZE=30
     depends_on:
       - postgres
+    deploy:
+      resources:
+        limits:
+          memory: 1G
     network_mode: "host"
+    
   api2: 
     build: .
     environment:
@@ -15,6 +20,10 @@ services:
       - POOL_SIZE=30
     depends_on:
       - postgres
+    deploy:
+      resources:
+        limits:
+          memory: 1G
     network_mode: "host"
   nginx:
     image: nginx
@@ -23,6 +32,10 @@ services:
     depends_on:
       - api1
       - api2
+    deploy:
+      resources:
+        limits:
+          memory: 1G
     network_mode: "host"
   postgres:
     image: postgres:16.3
@@ -30,8 +43,13 @@ services:
     environment:
       - POSTGRES_USER=lucas
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mydb
     volumes:
       - postgres:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          memory: 1G
     network_mode: "host"
 volumes:
   postgres:
