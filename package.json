@@ -6,7 +6,8 @@
   "scripts": {
     "server": "node src/server",
     "test": "npx jest --verbose --forceExit --maxWorkers=1 --detectOpenHandles",
-    "up": "docker compose up -d"
+    "up": "docker compose up -d",
+    "load": "k6 run ./test/load.js"
   },
   "author": "",
   "license": "ISC",
