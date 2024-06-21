@@ -1,5 +1,6 @@
-const { PrismaClient } = require("@prisma/client")
-const prisma = new PrismaClient();
+// const { PrismaClient } = require("@prisma/client")
+// const prisma = new PrismaClient();
+const Pessoas = require("../models/Pessoas")
 const express = require("express");
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.post('/pessoas',async (req, res) => {
         Object.keys(req.body).forEach(key => {
             //check if there are any parameters other than stack = null and throw the error
             if(req.body[key] == null && key != "stack"){
-                throw {name:"PrismaNullError"};
+                throw {name:"SequelizeNullError"};
             }
             //check if the stack is null to switch to []
             if(key == "stack" && req.body[key] == null){
@@ -18,22 +19,17 @@ router.post('/pessoas',async (req, res) => {
             }
             //check if birchday is in correct format
             if(key == "nascimento" && !(birthRegex).test(req.body[key]) && typeof req.body[key] == "string"){
-                throw {name:"PrismaValidationError"}
+                throw {name:"SequelizeValidationError"}
             }
         })
-        const search_vector = `${req.body.apelido}     ${req.body.nome}     ${req.body.nascimento}     ${req.body.stack.join("     ")}`;
         //creates a new user in the database
-        const result = await prisma.pessoas.create({
-            data: {...req.body, search_vector}
+        const result = await Pessoas.create({
+            ...req.body
         });
-        const userId = result.id;
-
         //return the status OK with location
-        res.status(201);
-        res.setHeader('location', '/pessoas/' + userId);
-        res.json(result);
+        res.status(201).location(`/pessoas/${result.userId}`).json(result);
     }catch(err){
-        if(err.name == "PrismaNullError"){
+        if(err.name == "SequelizeNullError"){
             //for null parameter
             res.status(422);
             res.json(err.name);
@@ -55,7 +51,7 @@ router.post('/pessoas',async (req, res) => {
 
 router.get("/pessoas/:id", async (req, res) => {
     try{
-        const user = await prisma.pessoas.findFirst({
+        const user = await Pessoas.findOne({
             where:{
                 id:req.params.id
             }
@@ -63,38 +59,32 @@ router.get("/pessoas/:id", async (req, res) => {
         if(user == null){
             throw {name:"UserNotFound"}
         }
-        res.status(200);
-        res.json(user);
+        res.status(200).json(user);
     }catch(err){
-        res.status(404);
-        res.json(err);
+        res.status(404).json(err);
     }
 })
 
 router.get("/pessoas", async (req, res) => {
     const searchedString = req.query.t;
     try{
-        const users = await prisma.pessoas.findMany({
+        const users = await Pessoas.findAll({
             where:{
-                search_vector:{contains:searchedString}
+                searchVector:{
+                    [Op.like]: `%{${searchedString}}%`
+                }
             },
-            take: 50
+            limit: 50
         });
-        const usersStack = (await prisma.pessoas.findMany()).filter((user) => {return user.stack.includes(searchedString)});
-
-        res.status(200);
-        res.json(users.concat(usersStack));
-
+        res.status(200).json(users);
     }catch(err){
-        console.log(err);
         res.json(err);
     }
 })
 
 router.get("/contagem-pessoas", async (req, res) => {
-    const users = await prisma.pessoas.findMany();
-    console.log(users);
-    res.json(users.length);
+    const usersCount = await Pessoas.count();
+    res.json(usersCount);
 })
 
 module.exports = router;

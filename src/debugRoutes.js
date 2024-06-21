@@ -1,15 +1,23 @@
-const { PrismaClient } = require("@prisma/client")
-const prisma = new PrismaClient();
+// const { PrismaClient } = require("@prisma/client")
+// const prisma = new PrismaClient();
+const Pessoas = require("../models/Pessoas");
 const express = require("express");
 const router = express.Router();
 
 router.get('/all', async (req, res) => {
-    const users = await prisma.pessoas.findMany();
-    res.json(users);
+    try{
+        const users = await Pessoas.findAll();
+        res.json(users);
+    }catch(err){
+        console.error(err);
+    }
+    
 })
 
 router.delete('/all', async (req, res) => {
-    const users = await prisma.pessoas.deleteMany();
+    const users = await Pessoas.destroy({
+        truncate: true
+    });
     res.json(users);
 })
 
