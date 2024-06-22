@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "User" ALTER COLUMN "stack" SET DEFAULT ARRAY[]::VARCHAR(32)[];

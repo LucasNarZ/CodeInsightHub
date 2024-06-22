@@ -5,6 +5,4 @@ const sequelize = new Sequelize('mydb', 'lucas', 'postgres', {
     port: 5432
 });
 
-
-
 module.exports = sequelize;

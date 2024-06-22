@@ -1,21 +1,25 @@
+require('module-alias/register');
 const express = require("express");
 const app = express();
-const sequelize = require("../utils/db");
+const sequelize = require("./db");
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-
 app.use(express.json());
 
 const port = process.env.HTTP_PORT ?? 4000;
 
 
-const routes = require('./routes');
-const debugRoutes = require("./debugRoutes");
+const routes = require('@routes/routes');
+const debugRoutes = require("@routes/debugRoutes");
 
 app.use('/api', routes);
-app.use('/api', debugRoutes);
+app.use('/api/debug', debugRoutes);
 
-
+if(port != 4000){
+    (async () => {
+        await sequelize.sync({force: true});
+    })();
+}
 
 
 let server;

@@ -4,7 +4,7 @@ const Pessoas = require("../models/Pessoas");
 const express = require("express");
 const router = express.Router();
 
-router.get('/all', async (req, res) => {
+router.get('/', async (req, res) => {
     try{
         const users = await Pessoas.findAll();
         res.json(users);
@@ -14,7 +14,7 @@ router.get('/all', async (req, res) => {
     
 })
 
-router.delete('/all', async (req, res) => {
+router.delete('/', async (req, res) => {
     const users = await Pessoas.destroy({
         truncate: true
     });

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
-const database = require("../utils/db");
+const sequelize = require("@root/db");
 
-const Pessoas = database.define('pessoas', {
+const Pessoas = sequelize.define('pessoas', {
     id : {
         type: DataTypes.UUID,
         allowNull: false,
