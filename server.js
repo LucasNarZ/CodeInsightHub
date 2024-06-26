@@ -1,4 +1,4 @@
-require('module-alias/register');
+require('module-alias-jest/register')
 const express = require("express");
 const app = express();
 const sequelize = require("./db");
@@ -15,11 +15,6 @@ const debugRoutes = require("@routes/debugRoutes");
 app.use('/api', routes);
 app.use('/api/debug', debugRoutes);
 
-if(port != 4000){
-    (async () => {
-        await sequelize.sync({force: true});
-    })();
-}
 
 
 let server;

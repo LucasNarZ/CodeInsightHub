@@ -1,5 +1,8 @@
-const { server } = require("../src/server");
+const { server } = require("@root/server");
 const agent = require("supertest").agent(server);
+const { sequelize } = require("@root/db.js");
+const Pessoas = require("@models/Pessoas");
+
 
 const randomstring = require("randomstring");
 // Função para enviar uma requisição POST com dados de pessoa e retornar a resposta
@@ -15,6 +18,13 @@ const personModel = {
     stack: []
 };
 
+beforeAll(async () => {
+    await sequelize.sync({ force: true });
+  });
+  
+afterAll(async () => {
+    await sequelize.close();
+});
 
 afterEach(async () => {
     await agent.delete("/api/all");

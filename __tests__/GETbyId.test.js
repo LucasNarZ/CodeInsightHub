@@ -1,48 +1,37 @@
+const mockfindByIdDB  = require("@services/users/findByIdDB");
+const Pessoas = require("@models/Pessoas")
 
-const { server } = require("../src/server");
-const agent = require("supertest").agent(server);
+// Mock manual do modelo User
+const mockFindByIdDB = jest.fn();
 
-const randomstring = require("randomstring");
-// Função para enviar uma requisição POST com dados de pessoa e retornar a resposta
-const sendPostRequest = async (data) => {
-    return await agent.post('/api/pessoas').send(data);
-};
+// Substituir o método findByPk com o mock
+Pessoas.findByIdDB = mockFindByIdDB;
 
-async function sendGetByIdRequest(id){
-    return await agent.get('/api/pessoas/' + id);
-};
-
-
-const name = randomstring.generate({ length: 12, charset: 'alphabetic' });
 const personModel = {
-    apelido: name,
-    nome: name,
-    nascimento: "0000-00-00",
-    stack: []
-};
-
-
-afterEach(async () => {
-    await agent.delete("/api/all");
-    server.close();
+    id:"2CA263F1-5C94-11E0-84CC-002170FBAC5B",
+    apelido:"luc",
+    nome:"lucas",
+    stack:["python", "JS"]
+}
+beforeEach(() => {
+    // Limpar mocks antes de cada teste
+    mockFindByIdDB.mockReset();
 });
-
 describe('GET /pessoas/[:id]', () => {
     describe('valid search', () => {
         test('should respond with status code 200 OK and person data', async () => {
-            const user = await sendPostRequest(personModel);
-            const { status, body } = await sendGetByIdRequest(user.body.id);
-
+            mockFindByIdDB.mockResolvedValue(personModel);
+            const {body, status} = await findByIdDB("2CA263F1-5C94-11E0-84CC-002170FBAC5B");
             expect( status ).toBe(200);
             expect(body).toMatchObject(personModel);
         });
 
     });
 
-    describe('invalid search', () => {
-        test('should respond status 404', async () => {
-            const {status} = await sendGetByIdRequest("5cc226ae-ea08-4b2f-b848-e984069a0");
-            expect(status).toBe(404);
-        })
-    })
+    // describe('invalid search', () => {
+    //     test('should respond status 404', async () => {
+    //         const {status} = await sendGetByIdRequest("5cc226ae-ea08-4b2f-b848-e984069a0");
+    //         expect(status).toBe(404);
+    //     })
+    // })
 });

@@ -1,6 +1,6 @@
 module.exports = {
-    createUserDB: require("./createUserDB"),
-    findByTermDB: require("./findByTermDB"),
-    findByIdDB: require("./findByIdDB"),
-    countUsersDB: require("./countUsersDB")
+    createUserDB: require("@services/users/createUserDB"),
+    findByTermDB: require("@services/users/findByTermDB"),
+    findByIdDB: require("@services/users/findByIdDB"),
+    countUsersDB: require("@services/users/countUsersDB")
 };

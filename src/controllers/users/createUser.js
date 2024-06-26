@@ -1,13 +1,15 @@
-const { addUsers } = require("@services/users");
+const { createUserDB } = require("@services/users");
 const validateCredentials = require("@utils/users/validateCredentials");
-
+const { v4 } = require("uuid");
 
 module.exports = async (req, res) => {
     try{
+
         const user = validateCredentials(req.body);
-        
+        user.id = v4();
+        user.searchVector = `${user.apelido} ${user.nome} ${user.stack.join(" ")}`;
         //creates a new user in the database
-        const result = await addUsers(user);
+        const result = await createUserDB(user);
         //return the status OK with location
         res.status(201).location(`/pessoas/${result.userId}`).json(result);
     }catch(err){
@@ -25,6 +27,7 @@ module.exports = async (req, res) => {
             res.json(err);
         }else{
             //for other errors
+            console.error(err);
             res.status(404);
             res.json(err);
         }

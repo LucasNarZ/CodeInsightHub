@@ -1,6 +1,6 @@
 module.exports = {
-    createUser: require("./createUser"),
-    findById: require("./findById"),
-    findByTerm: require("./findByTerm"),
-    countPessoas: require("./countUsers")
+    createUser: require("@controllers/users/createUser"),
+    findById: require("@controllers/users/findById"),
+    findByTerm: require("@controllers/users/findByTerm"),
+    countUsers: require("@controllers/users/countUsers")
 }

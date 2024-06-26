@@ -25,6 +25,7 @@ export default () => {
           'Content-Type': 'application/json',
         },
       });
+    console.log(res);
     check(res, {"201": (r) => r.status === 201})
     users.splice(random, 1);
 };

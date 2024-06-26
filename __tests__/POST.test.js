@@ -1,4 +1,4 @@
-const { server } = require("../src/server");
+const { server } = require("@root/server");
 const agent = require("supertest").agent(server);
 
 const randomstring = require("randomstring");

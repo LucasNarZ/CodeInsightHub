@@ -1,4 +1,5 @@
 const Pessoas = require("@models/Pessoas")
+const { Op } = require("sequelize");
 
 module.exports = async (searchedString, limit=null) => {
     let options = {
