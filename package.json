@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "server": "node src/server",
-    "test": "NODE_ENV=test npx jest ",
+    "test": "NODE_ENV=test npx jest ./__tests__/GETbyId.test.js",
     "up": "docker compose up -d",
     "load": "k6 run ./__tests__/load.js"
   },
@@ -16,6 +16,7 @@
     "@controllers": "src/controllers",
     "@models": "src/models",
     "@services": "src/services",
+    "@repository": "src/repository",
     "@utils": "src/utils",
     "@routes": "src/routes",
     "@mocks": "__mocks__"
