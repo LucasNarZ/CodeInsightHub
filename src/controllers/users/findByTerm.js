@@ -1,4 +1,4 @@
-const { findByTermDB } = require("@services/users")
+const { findByTermDB } = require("@repository/users")
 
 module.exports = async (req, res) => {
     const searchedString = req.query.t;

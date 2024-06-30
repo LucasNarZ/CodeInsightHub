@@ -1,4 +1,4 @@
-const { createUserDB } = require("@services/users");
+const { createUserDB } = require("@repository/users");
 const validateCredentials = require("@utils/users/validateCredentials");
 const { v4 } = require("uuid");
 

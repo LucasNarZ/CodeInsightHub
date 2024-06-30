@@ -1,4 +1,4 @@
-const { countUsersDB } = require("@services/users");
+const { countUsersDB } = require("@repository/users");
 
 module.exports = async (req, res) => {
     const usersCount = await countUsersDB();
