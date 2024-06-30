@@ -1,11 +1,18 @@
-const mockfindByIdDB  = require("@services/users/findByIdDB");
-const Pessoas = require("@models/Pessoas")
+const { findByIdService } = require("@services/users");
+const { findByIdDB } = require("@repository/users");
 
-// Mock manual do modelo User
-const mockFindByIdDB = jest.fn();
+jest.mock("@repository/users");
 
-// Substituir o método findByPk com o mock
-Pessoas.findByIdDB = mockFindByIdDB;
+findByIdDB.mockImplementationOnce(() => {
+    return {
+        id:"2CA263F1-5C94-11E0-84CC-002170FBAC5B",
+        apelido:"luc",
+        nome:"lucas",
+        stack:["python", "JS"]
+    };
+}).mockImplementationOnce(() => {
+    return null;
+})
 
 const personModel = {
     id:"2CA263F1-5C94-11E0-84CC-002170FBAC5B",
@@ -13,25 +20,20 @@ const personModel = {
     nome:"lucas",
     stack:["python", "JS"]
 }
-beforeEach(() => {
-    // Limpar mocks antes de cada teste
-    mockFindByIdDB.mockReset();
-});
+
+
 describe('GET /pessoas/[:id]', () => {
     describe('valid search', () => {
         test('should respond with status code 200 OK and person data', async () => {
-            mockFindByIdDB.mockResolvedValue(personModel);
-            const {body, status} = await findByIdDB("2CA263F1-5C94-11E0-84CC-002170FBAC5B");
-            expect( status ).toBe(200);
-            expect(body).toMatchObject(personModel);
+            const user =  await findByIdService("2CA263F1-5C94-11E0-84CC-002170FBAC5B");
+            expect( user ).toMatchObject(personModel);
         });
 
     });
 
-    // describe('invalid search', () => {
-    //     test('should respond status 404', async () => {
-    //         const {status} = await sendGetByIdRequest("5cc226ae-ea08-4b2f-b848-e984069a0");
-    //         expect(status).toBe(404);
-    //     })
-    // })
+    describe('invalid search', () => {
+        test('should respond status 404', async () => {
+            await expect(findByIdService("2CA263F1-5C94-11E0-84CC-002170FBAC5B")).rejects.toThrow("UserNotFound");
+        })
+    })
 });
