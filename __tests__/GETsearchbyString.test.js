@@ -1,48 +1,36 @@
+const { findByTermDB } = require("@repository/users");
+jest.mock("@repository/users");
+
 const { server } = require("@root/server");
 const agent = require("supertest").agent(server);
 
-const randomstring = require("randomstring");
-// Função para enviar uma requisição POST com dados de pessoa e retornar a resposta
-const sendPostRequest = async (data) => {
-    return await agent.post('/api/pessoas').send(data);
-};
+const personModel = require("@utils/users/personModel")
+const searchedPersons = new Array(10).fill(personModel);
 
-async function StringMatchRequest(string){
-    return await agent.get("/api/pessoas?t=" + string)
-}
-
-const name = randomstring.generate({ length: 12, charset: 'alphabetic' });
-
-
-afterEach(async () => {
-    await agent.delete("/api/all");
-    server.close();
+afterAll(async () => {
+    await server.close();
 });
 
-describe("GET /pessoas?t=[:termo da busca]", () => {
+describe("GET /pessoas?t=[:search term]", () => {
     describe("should respond with all matchs", () => {
-        test("using dados", async () => {
-            const users = await Promise.all([
-                sendPostRequest({ apelido: "teste" + name, nome: name, nascimento: "0000-00-00", stack: [] }),
-                sendPostRequest({ apelido: name, nome: name, nascimento: "0000-00-00", stack: [] }),
-                sendPostRequest({ apelido: name + "teste", nome: name, nascimento: "0000-00-00", stack: [] })
-            ]);
+        test("using data", async () => {
+            findByTermDB.mockImplementationOnce(() => {
+                return searchedPersons;
+            });
 
-            const { body } = await StringMatchRequest("teste");
-            expect(new Set(body)).toEqual(new Set([users[2].body, users[0].body]));
+            const { body } = await agent.get("/api/pessoas?t=luc");
+            expect(body).toEqual(searchedPersons);
 
         })
     })
 
     describe("other details", () => {
-        test("should return 200 status code, respond []", async () => {
-            await Promise.all([
-                sendPostRequest({ apelido: "teste" + name, nome: name, nascimento: "0000-00-00", stack: [] }),
-                sendPostRequest({ apelido: name, nome: name, nascimento: "0000-00-00", stack: [] }),
-                sendPostRequest({ apelido: name + "teste", nome: name, nascimento: "0000-00-00", stack: [] })
-            ]);
+        test("should respond 200 status code, respond []", async () => {
+            findByTermDB.mockImplementationOnce(() => {
+                return [];
+            });
 
-            const { body, status } = await StringMatchRequest("banana");
+            const { body, status } = await agent.get("/api/pessoas?t=luc");
             expect(body).toEqual([]);
             expect(status).toBe(200);
         })
