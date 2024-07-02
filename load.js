@@ -9,9 +9,9 @@ for(let i=0;i < 50000;i++){
 const options = {
     stages: [
         {duration: "5s", target: 10},
-        {duration: "15s", target: 15},
-        {duration: "30s", target: 20},
-        {duration: "15s", target: 15},
+        {duration: "10s", target: 15},
+        {duration: "20s", target: 25},
+        {duration: "10s", target: 15},
         {duration: "5s", target: 10},
 
     ]
