@@ -1,19 +1,8 @@
-const { createUserDB } = require("@repository/users");
-const validateCredentials = require("@utils/users/validateCredentials");
-const { v4 } = require("uuid");
-
+const { createUserService } = require("@services/users")
 module.exports = async (req, res) => {
     try{
         const user = req.body;
-        user.id = v4();
-        user.searchVector = `${user.apelido} ${user.nome} ${user?.stack?.join(" ") ?? ""}`;
-        if(user.stack == null){
-            user.stack = [];
-        }
-        validateCredentials(user);
-        
-        //creates a new user in the database
-        const result = await createUserDB(user);
+        const result = await createUserService(user);
         //return the status OK with location
         res.status(201).location(`/pessoas/${result.id}`).json(result);
     }catch(err){
@@ -32,7 +21,7 @@ module.exports = async (req, res) => {
         }else{
             //for other errors
             console.error(err);
-            res.status(404);
+            res.status(500);
             res.json(err);
         }
     }

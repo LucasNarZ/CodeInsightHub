@@ -1,12 +1,13 @@
-const { findByTermDB } = require("@repository/users")
+const { findByTermService } = require("@services/users")
 
 module.exports = async (req, res) => {
-    const searchedString = req.query.t;
     try{
-        const users = await findByTermDB(searchedString, 50);
+        const searchedString = req.query.t;
+        const users = await findByTermService(searchedString);
         res.status(200).json(users);
     }catch(err){
-        console.log(err)
+        console.log(err);
+        res.status(500);
         res.json(err);
     }
 }
