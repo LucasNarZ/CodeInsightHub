@@ -48,11 +48,11 @@ describe('POST /pessoas', () => {
             createUserDB.mockImplementationOnce(() => {
                 return personModel;
             });            
-            const personModelNull = [{...personModel, apelido:null}, {...personModel, name:null}, {...personModel, nascimento:null}];
-            personModelNull.forEach(async (personModel) => {
-                const { status } = await agent.post('/api/pessoas').send(personModel);
+            const personModelNullArray = [{...personModel, apelido:null}, {...personModel, name:null}, {...personModel, nascimento:null}];
+            for(personModelNull of personModelNullArray){
+                const { status } = await agent.post('/api/pessoas').send(personModelNull);
                 expect(status).toBe(422);
-            });
+            };
         });
 
         
@@ -61,11 +61,11 @@ describe('POST /pessoas', () => {
             createUserDB.mockImplementationOnce(() => {
                 return personModel;
             });            
-            const personModelType = [{...personModel, apelido:1}, {...personModel, name:2}, {...personModel, nascimento:3}];
-            personModelType.forEach(async (personModel) => {
-                const { status } = await agent.post('/api/pessoas').send(personModel);
+            const personModelTypeArray = [{...personModel, apelido:1}, {...personModel, name:2}, {...personModel, nascimento:3}];
+            for(personModelType of personModelTypeArray){
+                const { status } = await agent.post('/api/pessoas').send(personModelType);
                 expect(status).toBe(400);
-            });
+            };
             
         });
         
