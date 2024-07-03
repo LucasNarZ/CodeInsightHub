@@ -1,6 +1,6 @@
 const { findByTermService } = require("@services/users")
 
-module.exports = async (req, res) => {
+module.exports = async (req:ExpressRequest, res:ExpressResponse) => {
     try{
         const searchedString = req.query.t;
         const users = await findByTermService(searchedString);

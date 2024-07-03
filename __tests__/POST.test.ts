@@ -2,12 +2,8 @@ const { createUserDB } = require("@repository/users");
 const personModel = require("@utils/users/personModel");
 jest.mock("@repository/users");
 
-
-
 const { server } = require("@root/server");
 const agent = require("supertest").agent(server);
-
-
 
 afterAll(async () => {
     await server.close();
@@ -49,7 +45,7 @@ describe('POST /pessoas', () => {
                 return personModel;
             });            
             const personModelNullArray = [{...personModel, apelido:null}, {...personModel, name:null}, {...personModel, nascimento:null}];
-            for(personModelNull of personModelNullArray){
+            for(let personModelNull of personModelNullArray){
                 const { status } = await agent.post('/api/pessoas').send(personModelNull);
                 expect(status).toBe(422);
             };
@@ -62,7 +58,7 @@ describe('POST /pessoas', () => {
                 return personModel;
             });            
             const personModelTypeArray = [{...personModel, apelido:1}, {...personModel, name:2}, {...personModel, nascimento:3}];
-            for(personModelType of personModelTypeArray){
+            for(let personModelType of personModelTypeArray){
                 const { status } = await agent.post('/api/pessoas').send(personModelType);
                 expect(status).toBe(400);
             };

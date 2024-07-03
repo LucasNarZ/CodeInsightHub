@@ -1,11 +1,12 @@
-const { createUserService } = require("@services/users")
-module.exports = async (req, res) => {
+const { createUserService } = require("@services/users");
+
+module.exports = async (req:ExpressRequest, res:ExpressResponse) => {
     try{
         const user = req.body;
         const result = await createUserService(user);
         //return the status OK with location
         res.status(201).location(`/pessoas/${result.id}`).json(result);
-    }catch(err){
+    }catch(err:any){
         if(err.name == "ParameterNullError"){
             //for null parameter
             res.status(422);

@@ -6,11 +6,11 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY server.js .
-COPY db.js .
+COPY server.ts .
+COPY db.ts .
 COPY ./src ./src
 
 
 EXPOSE 4000
 
-CMD ["node", "server.js"]
+CMD ["node", "server.ts"]

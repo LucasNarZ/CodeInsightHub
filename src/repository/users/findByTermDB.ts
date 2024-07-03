@@ -1,8 +1,8 @@
-const Pessoas = require("@models/Pessoas")
 const { Op } = require("sequelize");
+import { FindOptions } from "sequelize";
 
-module.exports = async (searchedString, limit=null) => {
-    let options = {
+module.exports = async (searchedString:string, limit=null) => {
+    let options:FindOptions = {
         where:{
             searchVector:{
                 [Op.like]: `%${searchedString}%`

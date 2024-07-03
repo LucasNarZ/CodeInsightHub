@@ -1,6 +1,4 @@
-const Pessoas = require("@models/Pessoas");
-
-module.exports = async (id) => {
+module.exports = async (id:string) => {
     try{
         return await Pessoas.findOne({
             where:{

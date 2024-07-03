@@ -1,7 +1,6 @@
 require('module-alias-jest/register')
-const express = require("express");
+import express from "express";
 const app = express();
-const sequelize = require("./db");
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 app.use(express.json());

@@ -1,5 +1,5 @@
 const { createUser, findById, findByTerm, countUsers } = require("@controllers/users");
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
 router.post('/pessoas', createUser);
