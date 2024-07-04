@@ -1,6 +1,6 @@
-const { countUsersDB } = require("@repository/users");
+import { countUsersDB }  from "@repository/users";
 
-module.exports = async () => {
+export default async () => {
     const usersCount = await countUsersDB();
     return usersCount;
 }

@@ -1,7 +1,7 @@
-const { countUsersService } = require("@services/users")
+import { countUsersService } from "@services/users";
 
 
-module.exports = async (req:ExpressRequest, res:ExpressResponse) => {
+export default async (req:ExpressRequest, res:ExpressResponse) => {
     try{
         const usersCount = await countUsersService();
         res.json(usersCount);

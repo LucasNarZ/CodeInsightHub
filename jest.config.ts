@@ -1,4 +1,4 @@
-const aliases = require('module-alias-jest/register')
+import aliases from 'module-alias-jest/register';
 
 /** @type {import('jest').Config} */
 const config = {

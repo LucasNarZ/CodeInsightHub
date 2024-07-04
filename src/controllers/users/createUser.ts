@@ -1,6 +1,6 @@
-const { createUserService } = require("@services/users");
+import { createUserService } from "@services/users";
 
-module.exports = async (req:ExpressRequest, res:ExpressResponse) => {
+export default async (req:ExpressRequest, res:ExpressResponse) => {
     try{
         const user = req.body;
         const result = await createUserService(user);

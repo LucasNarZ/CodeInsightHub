@@ -1,6 +1,6 @@
-const { findByTermDB } = require("@repository/users")
+import { findByTermDB } from "@repository/users";
 
-module.exports = async (searchedString:string) => {
+export default async (searchedString:string) => {
     const users = await findByTermDB(searchedString, 50);
     return users;
 }

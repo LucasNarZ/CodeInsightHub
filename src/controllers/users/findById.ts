@@ -1,6 +1,6 @@
-const { findByIdService } = require("@services/users")
+import { findByIdService } from "@services/users";
 
-module.exports = async (req:ExpressRequest, res:ExpressResponse) => {
+export default async (req:ExpressRequest, res:ExpressResponse) => {
     try{
         const id = req.params.id;
         const user = await findByIdService(id);

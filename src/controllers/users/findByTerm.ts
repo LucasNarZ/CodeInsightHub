@@ -1,8 +1,8 @@
-const { findByTermService } = require("@services/users")
+import { findByTermService } from "@services/users";
 
-module.exports = async (req:ExpressRequest, res:ExpressResponse) => {
+export default async (req:ExpressRequest, res:ExpressResponse) => {
     try{
-        const searchedString = req.query.t;
+        const searchedString:string = req.query.t as string;
         const users = await findByTermService(searchedString);
         res.status(200).json(users);
     }catch(err){

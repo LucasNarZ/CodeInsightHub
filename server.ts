@@ -1,22 +1,20 @@
-require('module-alias-jest/register')
+import 'module-alias-jest/register';
 import express from "express";
 const app = express();
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
+// const cluster = require('cluster');
+// const numCPUs = require('os').cpus().length;
 app.use(express.json());
 
 const port = process.env.HTTP_PORT ?? 4000;
 
-
-const routes = require('@routes/routes');
-const debugRoutes = require("@routes/debugRoutes");
+import routes from '@routes/routes';
+import debugRoutes from "@routes/debugRoutes";
 
 app.use('/api', routes);
 app.use('/api/debug', debugRoutes);
 
 
-
-let server;
+let server:any;
 // if(port != 4000){
 //     if(cluster.isMaster){
 //         for(let i = 0;i < numCPUs; i++){
@@ -38,4 +36,4 @@ server = app.listen(port, () => {
 
 
 
-module.exports = {server, app};
+export {server, app};

@@ -1,4 +1,6 @@
-module.exports = async (id:string) => {
+import Pessoas from "@models/Pessoas";
+
+export default  async (id:string) => {
     try{
         return await Pessoas.findOne({
             where:{

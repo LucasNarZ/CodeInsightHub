@@ -1,4 +1,5 @@
 import User from "@utils/users/types/user";
+import Pessoas from "@models/Pessoas";
 import express, { Request, Response } from 'express';
 const router = express.Router();
 
@@ -19,4 +20,4 @@ router.delete('/', async (req:Request, res:Response) => {
     res.json(users);
 })
 
-module.exports = router;
+export default router;

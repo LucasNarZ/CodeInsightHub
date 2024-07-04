@@ -1,6 +1,6 @@
-module.exports = {
-    createUser: require("@controllers/users/createUser"),
-    findById: require("@controllers/users/findById"),
-    findByTerm: require("@controllers/users/findByTerm"),
-    countUsers: require("@controllers/users/countUsers")
-}
+import createUser from "@controllers/users/createUser";
+import findByTerm from "@controllers/users/findByTerm";
+import findById from "@controllers/users/findById";
+import countUsers from "@controllers/users/countUsers";
+
+export {createUser, findById, findByTerm, countUsers};

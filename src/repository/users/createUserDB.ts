@@ -1,6 +1,7 @@
 import User from "@utils/users/types/user";
+import Pessoas from "@models/Pessoas"
 
-module.exports = async (userInfo:User) => {
+export default async (userInfo:User) => {
     return await Pessoas.create({
         ...userInfo
     });

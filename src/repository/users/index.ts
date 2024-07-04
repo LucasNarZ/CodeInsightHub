@@ -1,6 +1,8 @@
-module.exports = {
-    createUserDB: require("@repository/users/createUserDB"),
-    findByTermDB: require("@repository/users/findByTermDB"),
-    findByIdDB: require("@repository/users/findByIdDB"),
-    countUsersDB: require("@repository/users/countUsersDB")
-};
+
+
+import createUserDB from "@repository/users/createUserDB";
+import findByTermDB from "@repository/users/findByTermDB";
+import findByIdDB from "@repository/users/findByIdDB";
+import countUsersDB from "@repository/users/countUsersDB";
+
+export {createUserDB, findByIdDB, findByTermDB, countUsersDB};

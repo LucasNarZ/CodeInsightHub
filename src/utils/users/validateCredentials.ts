@@ -1,6 +1,6 @@
 import User from "@utils/users/types/user";
 
-module.exports = (credentials:User) => {
+export default (credentials:User) => {
     const birthRegex = /^\d{4}-\d{2}-\d{2}$/
     Object.keys(credentials).forEach((key:string ) => {
         //check if there are any parameters other than stack = null and throw the error

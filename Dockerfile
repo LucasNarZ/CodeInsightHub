@@ -8,9 +8,10 @@ RUN npm install
 
 COPY server.ts .
 COPY db.ts .
+COPY tsconfig.json .
 COPY ./src ./src
 
 
 EXPOSE 4000
 
-CMD ["node", "server.ts"]
+CMD ["npm", "run", "server"]

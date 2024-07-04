@@ -1,7 +1,8 @@
-const { Op } = require("sequelize");
+import { Op } from "sequelize";
 import { FindOptions } from "sequelize";
+import Pessoas from "@models/Pessoas"
 
-module.exports = async (searchedString:string, limit=null) => {
+export default async (searchedString:string, limit:number|null=null) => {
     let options:FindOptions = {
         where:{
             searchVector:{

@@ -7,4 +7,4 @@ interface User {
     searchVector?:string;
 }
 
-export = User;
+export default User;

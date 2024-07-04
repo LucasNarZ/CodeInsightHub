@@ -1,9 +1,9 @@
-const { createUserDB } = require("@repository/users");
-const validateCredentials = require("@utils/users/validateCredentials");
-const { v4 } = require("uuid");
+import { createUserDB } from "@repository/users";
+import validateCredentials from "@utils/users/validateCredentials";
+import { v4 } from "uuid";
 import User from "@utils/users/types/user";
 
-module.exports = async (user:User) => {
+export default async (user:User) => {
     user.id = v4();
     user.searchVector = `${user.apelido} ${user.nome} ${user?.stack?.join(" ") ?? ""}`;
     user.stack = user.stack || [];

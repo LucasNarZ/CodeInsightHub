@@ -2,7 +2,8 @@ const { findByTermDB } = require("@repository/users");
 jest.mock("@repository/users");
 
 const { server } = require("@root/server");
-const agent = require("supertest").agent(server);
+import supertest from "supertest";
+const agent = supertest.agent(server);
 
 const personModel = require("@utils/users/personModel")
 const searchedPersons = new Array(10).fill(personModel);

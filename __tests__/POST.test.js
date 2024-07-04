@@ -3,7 +3,8 @@ const personModel = require("@utils/users/personModel");
 jest.mock("@repository/users");
 
 const { server } = require("@root/server");
-const agent = require("supertest").agent(server);
+import supertest from "supertest";
+const agent = supertest.agent(server);
 
 afterAll(async () => {
     await server.close();

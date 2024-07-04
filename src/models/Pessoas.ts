@@ -1,30 +1,50 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("@root/db");
+import { DataTypes, Model } from "sequelize";
+import sequelize from "@root/db";
 
-const Pessoas = sequelize.define('pessoas', {
-    id : {
-        type: DataTypes.UUID,
-        allowNull: false,
-        primaryKey: true
+class Pessoa extends Model { // Corrigido para estender Model corretamente
+    public id!: string; // Definindo tipos para as propriedades
+    public apelido!: string;
+    public nome!: string;
+    public nascimento!: string;
+    public stack!: string[];
+    public searchVector!: string;
+}
+
+Pessoa.init(
+    {
+        id: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            primaryKey: true
+        },
+        apelido: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        nome: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        nascimento: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        stack: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            defaultValue: []
+        },
+        searchVector: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
     },
-    apelido: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    nome: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    stack: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        defaultValue: []
-    },
-    searchVector: {
-        type: DataTypes.STRING,
-        allowNull: false
+    {
+        sequelize,
+        modelName: 'Pessoa', // Nome do modelo
+        tableName: 'pessoas', // Nome da tabela no banco de dados
+        timestamps: false // Não incluir timestamps automáticos
     }
-});
+);
 
-
-module.exports = Pessoas;
+export default Pessoa;

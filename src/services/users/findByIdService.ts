@@ -1,6 +1,6 @@
-const { findByIdDB } = require("@repository/users");
+import { findByIdDB } from "@repository/users";
 
-module.exports = async (id:string) => {
+export default async (id:string) => {
     const user = await findByIdDB(id);
     if(user == null){
         throw {name:"UserNotFound"}

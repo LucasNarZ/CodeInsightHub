@@ -1,6 +1,6 @@
-const { createUser, findById, findByTerm, countUsers } = require("@controllers/users");
-import express from "express";
-const router = express.Router();
+import { createUser, findById, findByTerm, countUsers } from "@controllers/users";
+import { Router }  from "express";
+const router = Router();
 
 router.post('/pessoas', createUser);
 
@@ -10,4 +10,4 @@ router.get("/pessoas", findByTerm);
 
 router.get("/contagem-pessoas", countUsers);
 
-module.exports = router;
+export default router;
