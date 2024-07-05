@@ -1,12 +1,13 @@
-import aliases from 'module-alias-jest/register';
+import { pathsToModuleNameMapper, JestConfigWithTsJest } from "ts-jest";
+import { compilerOptions } from "./tsconfig.json";
 
-/** @type {import('jest').Config} */
-const config = {
-    verbose: true,
-    maxWorkers: 1,
-    forceExit: true,
-    detectOpenHandles: true,
-    moduleNameMapper: aliases.jest
-  };
-  
-module.exports = config;
+const jestConfig: JestConfigWithTsJest = {
+  preset: "ts-jest",
+  moduleDirectories: ["node_modules", "<rootDir>"],
+  maxWorkers:1,
+  verbose: true,
+  detectOpenHandles: true,
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths)
+ }
+
+export default jestConfig;
