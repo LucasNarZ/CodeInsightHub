@@ -1,22 +1,24 @@
-const { createUserDB } = require("@repository/users");
-const personModel = require("@utils/users/personModel");
+import User from "@utils/users/types/user";
+let { createUserDB } = require("@repository/users");
 jest.mock("@repository/users");
 
-const { server } = require("@root/server");
+const { server } = require("../server");
 import supertest from "supertest";
 const agent = supertest.agent(server);
+const { personModel }  = require("@utils/users/personModel");
 
 afterAll(async () => {
     await server.close();
 });
 
+createUserDB = createUserDB as jest.Mock;
+createUserDB.mockImplementation(() => {
+    return personModel;
+});
+
 describe('POST /pessoas', () => {
     describe('valid person', () => {
         test('should respond 201 OK status code, header location /pessoas/[added person id] and body with new added person data', async () => {
-            createUserDB.mockImplementationOnce(() => {
-                return personModel;
-            });
-            
             const { status, body, headers } = await agent.post('/api/pessoas').send(personModel);
             expect(status).toBe(201);
             expect(headers.location).toMatch(/^\/pessoas\/[0-9a-fA-F-]+$/);
@@ -41,30 +43,20 @@ describe('POST /pessoas', () => {
             expect(status).toBe(422); 
         });
 
-        test('should respond 422 status code(null parameter)', async () => {
-            createUserDB.mockImplementationOnce(() => {
-                return personModel;
-            });            
-            const personModelNullArray = [{...personModel, apelido:null}, {...personModel, name:null}, {...personModel, nascimento:null}];
+        test('should respond 422 status code(null parameter)', async () => {        
+            const personModelNullArray = [{...personModel, apelido:null}, {...personModel, name:null}, {...personModel, nascimento:null}] as User[];
             for(let personModelNull of personModelNullArray){
                 const { status } = await agent.post('/api/pessoas').send(personModelNull);
                 expect(status).toBe(422);
             };
         });
 
-        
-
-        test('should respond 400 status code(wrong parameter type)', async () => {
-            createUserDB.mockImplementationOnce(() => {
-                return personModel;
-            });            
+        test('should respond 400 status code(wrong parameter type)', async () => {          
             const personModelTypeArray = [{...personModel, apelido:1}, {...personModel, name:2}, {...personModel, nascimento:3}];
             for(let personModelType of personModelTypeArray){
                 const { status } = await agent.post('/api/pessoas').send(personModelType);
                 expect(status).toBe(400);
             };
-            
-        });
-        
+        }); 
     });
 });

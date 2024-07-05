@@ -1,8 +1,8 @@
 import { findByIdDB } from "@repository/users";
 jest.mock("@repository/users");
-import personModel from "@utils/users/personModel";
+const { personModel } = require("@utils/users/personModel");
 
-import { server } from "@root/server";
+import { server } from "../server";
 import supertest from "supertest";
 const agent = supertest.agent(server);
 
@@ -14,7 +14,7 @@ afterAll(async () => {
 describe('GET /pessoas/[:id]', () => {
     describe('valid search', () => { 
         test('should respond with status code 200 OK and person data', async () => {
-            (findByIdDB).mockImplementationOnce(() => {
+            (findByIdDB as jest.Mock).mockImplementationOnce(() => {
                 return personModel;
             })
             const { status, body } =  await agent.get("/api/pessoas/2CA263F1-5C94-11E0-84CC-002170FBAC5B");
@@ -25,7 +25,7 @@ describe('GET /pessoas/[:id]', () => {
 
     describe('invalid search', () => {
         test('should respond status 404', async () => {
-            (findByIdDB).mockImplementationOnce(() => {
+            (findByIdDB as jest.Mock).mockImplementationOnce(() => {
                 return null;
             })
             const { status, body } =  await agent.get("/api/pessoas/2CA263F1-5C94-11E0-84CC-002170FBAC5B");
