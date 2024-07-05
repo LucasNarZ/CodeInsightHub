@@ -15,7 +15,7 @@ export default async (req:ExpressRequest, res:ExpressResponse) => {
             //for unique constraint
             res.status(422);
             res.json(err.name);
-        }else if(err.name == "WrongParameterTypeError"){
+        }else if(err.name == "WrongParameterTypeError" && err.name == "WrongBirthFormatError"){
             //for wrong type parameter
             res.status(400);
             res.json(err.name);

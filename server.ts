@@ -1,8 +1,9 @@
 import 'module-alias/register';
 import express from "express";
 const app = express();
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
+import cluster from 'cluster';
+import os from "os";
+const numCPUs = os.cpus().length;
 app.use(express.json());
 
 const port = process.env.HTTP_PORT ?? 4000;
@@ -16,7 +17,7 @@ app.use('/api/debug', debugRoutes);
 
 let server:any;
 if(port != 4000){
-    if(cluster.isMaster){
+    if(cluster.isPrimary){
         for(let i = 0;i < numCPUs; i++){
             cluster.fork();
         }
