@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "@root/db";
+import sequelize from "../../db";
+
 
 class Pessoa extends Model { // Corrigido para estender Model corretamente
     public id!: string; // Definindo tipos para as propriedades

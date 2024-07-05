@@ -1,14 +1,14 @@
 import User from "@utils/users/types/user";
 
 export default (credentials:User) => {
-    const birthRegex = /^\d{4}-\d{2}-\d{2}$/
-    Object.keys(credentials).forEach((key:string ) => {
+    const birthRegex = /^\d{4}-\d{2}-\d{2}$/;
+    const keys = Object.keys(credentials);
+    keys.forEach((key:string) => {
         //check if there are any parameters other than stack = null and throw the error
-        if(credentials[key as keyof User] == null){
+        if(credentials[key] == null){
             throw {name:"ParameterNullError"};
         }
-        
-        if(typeof credentials[key as keyof User] !== "string" && key != "stack"){
+        if(typeof credentials[key] !== "string" && key != "stack"){
             throw {name:"WrongParameterTypeError"};
         }
         

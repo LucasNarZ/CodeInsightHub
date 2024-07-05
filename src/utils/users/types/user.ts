@@ -5,6 +5,7 @@ interface User {
     nascimento:string;
     stack?:string[];
     searchVector?:string;
+    [key:string]:string | string[];
 }
 
 export default User;
