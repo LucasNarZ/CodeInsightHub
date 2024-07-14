@@ -10,7 +10,7 @@ COPY server.ts .
 COPY db.ts .
 COPY tsconfig.json .
 COPY ./src ./src
-
+COPY redis-sessions.ts ./
 
 EXPOSE 4000
 

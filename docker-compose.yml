@@ -1,29 +1,21 @@
 version: '3.8'
 services:
-  api1: 
+  api1: &api
     build: .
     environment:
       - HTTP_PORT=3000
       - POOL_SIZE=30
+      - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - postgres
-    deploy:
-      resources:
-        limits:
-          memory: 1G
+      - redis-sessions
     network_mode: "host"
   api2: 
-    build: .
+    <<: *api
     environment:
       - HTTP_PORT=3001
       - POOL_SIZE=30
-    depends_on:
-      - postgres
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-    network_mode: "host"
+      - JWT_SECRET=${JWT_SECRET}
   nginx:
     image: nginx
     volumes:
@@ -31,24 +23,36 @@ services:
     depends_on:
       - api1
       - api2
-    deploy:
-      resources:
-        limits:
-          memory: 1G
     network_mode: "host"
   postgres:
     image: postgres:16.3
-    restart: always
+    restart: on-failure
     environment:
-      - POSTGRES_USER=lucas
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=mydb
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - postgres:/var/lib/postgresql/data
-    deploy:
-      resources:
-        limits:
-          memory: 1G
     network_mode: "host"
+  redis-sessions:
+    image: redis
+    restart: on-failure
+    hostname: redis-sessions
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    environment:
+      - REDIS_URL=${REDIS_URL}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_host=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    command: redis-server --save "" --appendonly no --maxclients 20000
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
 volumes:
   postgres:
+  redis_data:
