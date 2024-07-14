@@ -23,6 +23,7 @@ describe('POST /pessoas', () => {
             expect(status).toBe(201);
             expect(headers.location).toMatch(/^\/pessoas\/[0-9a-fA-F-]+$/);
             expect(body).toMatchObject(personModel);
+            expect(headers['set-cookie']).toBeDefined();
         });
         
         test("should respond 201 status code(optional parameter)", async () => {
