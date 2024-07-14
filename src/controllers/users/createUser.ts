@@ -1,9 +1,16 @@
 import { createUserService } from "@services/users";
 
+import { v4 } from "uuid";
+import redisSessionClient from "../../../redis-sessions";
+import session from "express-session";
+
 export default async (req:ExpressRequest, res:ExpressResponse) => {
     try{
         const user = req.body;
         const result = await createUserService(user);
+        req.session.sessionId = v4();
+        await redisSessionClient.set(req.session.sessionId, user.id);
+
         //return the status OK with location
         res.status(201).location(`/pessoas/${result.id}`).json(result);
     }catch(err:any){
