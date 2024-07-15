@@ -43,11 +43,6 @@ services:
       interval: 1s
       timeout: 3s
       retries: 5
-    environment:
-      - REDIS_URL=${REDIS_URL}
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
-      - REDIS_host=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
     command: redis-server --save "" --appendonly no --maxclients 20000
     volumes:
       - redis_data:/data
