@@ -27,10 +27,14 @@ declare module 'express-session' {
 
 const port = process.env.HTTP_PORT ?? 4000;
 
+let redisStore = new RedisStore({
+    client: redisSessionClient,
+});
+
 app.use(session({
     name:"sessionId",
-    store: new RedisStore({ client: redisSessionClient }),
-    secret: process.env.SESSION_SECRET,
+    store: redisStore,
+    secret: "abc",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -42,7 +46,6 @@ app.use(session({
 
 import routes from '@routes/routes';
 import debugRoutes from "@routes/debugRoutes";
-import redisSessionsClient from './redis-sessions';
 
 app.use('/api', routes);
 app.use('/api/debug', debugRoutes);

@@ -1,16 +1,9 @@
-import { createClient } from "redis";
-import dotenv from "dotenv";
+import Redis from "ioredis";
 
-dotenv.config();
+const redisSessionsClient = new Redis();
 
-const url:string = process.env.REDIS_URL;
+redisSessionsClient.connect().catch(err => console.error(err));
 
-const redisSessionsClient = createClient({url});
-(async () => {
-    await redisSessionsClient.connect();
-})();
-
-redisSessionsClient.on('error', err => console.log('Redis Client Error', err));
 
 
 
