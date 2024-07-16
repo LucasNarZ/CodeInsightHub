@@ -6,7 +6,7 @@ const jestConfig: JestConfigWithTsJest = {
   moduleDirectories: ["node_modules", "<rootDir>"],
   maxWorkers:1,
   verbose: true,
-  detectOpenHandles: true,
+  forceExit: true,
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths)
  }
 

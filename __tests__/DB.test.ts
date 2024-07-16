@@ -2,9 +2,13 @@ import { createUserDB, findByIdDB, findByTermDB, countUsersDB } from "@repositor
 import { personModel } from "@utils/users/personModel";
 import { v4 } from "uuid";
 
+const { server } = require("../server");
+import supertest from "supertest";
+const agent = supertest.agent(server);
+
 const newPersonModel = {...personModel, searchVector:"luc  Lucas Python JS", id:v4(), apelido:v4()};
 
-describe("DB", () => {
+describe("Postgres", () => {
     test("should respond with added user", async () => {
         const user = (await createUserDB(newPersonModel)).dataValues;
         expect(user).toMatchObject(newPersonModel);
@@ -27,3 +31,10 @@ describe("DB", () => {
 
 
 })
+
+describe("Sessions and Redis", () => {
+    test("should create a cookie and add to Redis userId", async () => {
+        const { headers } = await agent.post("/api/pessoas").send(personModel);
+        expect(headers["set-cookie"]).toBeDefined();
+    });
+});

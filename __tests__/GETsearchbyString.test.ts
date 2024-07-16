@@ -1,12 +1,18 @@
 const { findByTermDB } = require("@repository/users");
 jest.mock("@repository/users");
-
+import redisSessionsClient from "redis-sessions";
 const { server } = require("../server");
 import supertest from "supertest";
 const agent = supertest.agent(server);
 
 const { personModel } = require("@utils/users/personModel");
 const searchedPersons = new Array(10).fill(personModel);
+
+import verifySession from "@utils/users/middlewares/verifySession";
+jest.mock("@utils/users/middlewares/verifySession.ts");
+(verifySession as jest.Mock).mockImplementation((req, res, next) => {
+    next();
+});
 
 afterAll(async () => {
     await server.close();
