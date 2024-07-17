@@ -5,7 +5,7 @@ services:
     environment:
       - HTTP_PORT=3000
       - POOL_SIZE=30
-      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
     depends_on:
       - postgres
       - redis-sessions
@@ -15,7 +15,7 @@ services:
     environment:
       - HTTP_PORT=3001
       - POOL_SIZE=30
-      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
   nginx:
     image: nginx
     volumes:
