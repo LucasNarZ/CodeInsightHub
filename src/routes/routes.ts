@@ -9,6 +9,6 @@ router.get("/pessoas/:id", verifySession, findById);
 
 router.get("/pessoas", verifySession, findByTerm);
 
-router.get("/contagem-pessoas", verifySession, countUsers);
+router.get("/contagem-pessoas", countUsers);
 
 export default router;

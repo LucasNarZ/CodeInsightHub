@@ -2,13 +2,13 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../../db";
 
 
-class Pessoa extends Model { // Corrigido para estender Model corretamente
-    public id!: string; // Definindo tipos para as propriedades
+class Pessoa extends Model { 
+    public id!: string; 
     public apelido!: string;
     public nome!: string;
     public nascimento!: string;
     public stack!: string[];
-    public searchVector!: string;
+    public searchvector!: string;
 }
 
 Pessoa.init(
@@ -35,7 +35,7 @@ Pessoa.init(
             type: DataTypes.ARRAY(DataTypes.STRING),
             defaultValue: []
         },
-        searchVector: {
+        searchvector: {
             type: DataTypes.STRING,
             allowNull: false
         }

@@ -5,7 +5,7 @@ import Pessoas from "@models/Pessoas"
 export default async (searchedString:string, limit:number|null=null) => {
     let options:FindOptions = {
         where:{
-            searchVector:{
+            searchvector:{
                 [Op.like]: `%${searchedString}%`
             }
         }

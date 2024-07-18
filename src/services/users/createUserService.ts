@@ -5,7 +5,7 @@ import User from "@utils/users/types/user";
 
 export default async (user:User) => {
     user.id = v4();
-    user.searchVector = `${user.apelido} ${user.nome} ${user?.stack?.join(" ") ?? ""}`;
+    user.searchvector = `${user.apelido} ${user.nome} ${user?.stack?.join(" ") ?? ""}`;
     user.stack = user.stack || [];
     validateCredentials(user);
     
