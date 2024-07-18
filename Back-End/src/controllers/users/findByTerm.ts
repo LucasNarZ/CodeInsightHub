@@ -2,7 +2,7 @@ import { findByTermService } from "@services/users";
 
 export default async (req:ExpressRequest, res:ExpressResponse) => {
     try{
-        let searchedString:string = req.params.t;    
+        const searchedString:string = req.params.t;    
         if(searchedString == ""){
             throw {name:"BadRequest"}
         }

@@ -1,7 +1,15 @@
 version: '3.8'
 services:
+  front-end:
+    build:
+      context: ./Front-End
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
   api1: &api
-    build: .
+    build:
+      context: ./Back-End
+      dockerfile: Dockerfile
     environment:
       - HTTP_PORT=3000
       - POOL_SIZE=30

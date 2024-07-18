@@ -4,7 +4,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import helmet from 'helmet';
-import bodyParser from 'body-parser';
 
 import RedisStore from 'connect-redis';
 import redisSessionClient from './redis-sessions';
@@ -29,7 +28,7 @@ declare module 'express-session' {
 
 const port = process.env.HTTP_PORT ?? 4000;
 
-let redisStore = new RedisStore({
+const redisStore = new RedisStore({
     client: redisSessionClient,
 });
 
@@ -53,7 +52,7 @@ app.use('/api', routes);
 app.use('/api/debug', debugRoutes);
 
 const numCPUs = 4;
-let server:any;
+let server:unknown;
 if(port != 4000){
     if(cluster.isPrimary){
         for(let i = 0;i < numCPUs; i++){

@@ -1,7 +1,5 @@
 import { createUserService } from "@services/users";
 
-import { v4 } from "uuid";
-import redisSessionClient from "../../../redis-sessions";
 import createSession from "@utils/users/createSession";
 
 
