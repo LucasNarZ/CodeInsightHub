@@ -17,8 +17,8 @@ const app = express()
 dotenv.config();
 app.use(helmet());
 app.use(cors());
-app.use(bodyParser.json());
-app.set('trust proxy', 1);
+app.use(express.json());
+// app.set('trust proxy', 1);
 
 declare module 'express-session' {
     export interface SessionData {
