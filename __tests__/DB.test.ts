@@ -6,7 +6,12 @@ const { server } = require("../server");
 import supertest from "supertest";
 const agent = supertest.agent(server);
 
-const newPersonModel = {...personModel, searchVector:"luc  Lucas Python JS", id:v4(), apelido:v4()};
+const newPersonModel = {...personModel, searchvector:"luc  Lucas Python JS", id:v4(), apelido:v4()};
+
+afterAll(async () => {
+    await server.close();
+});
+
 
 describe("Postgres", () => {
     test("should respond with added user", async () => {
