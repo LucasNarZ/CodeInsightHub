@@ -5,7 +5,7 @@ dotenv.config();
 
 const sequelize = new Sequelize(process.env.POSTGRES_DB, process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
     dialect: "postgres",
-    host: "localhost",
+    host: "172.18.0.2",
     port: 5432
 });
 
