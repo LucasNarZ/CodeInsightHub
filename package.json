@@ -1,0 +1,15 @@
+{
+	"name": "global",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"install-all": "npm i && cd Front-End && npm i && cd .. && cd Back-End && npm i"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.7.0",
+		"eslint": "^9.7.0",
+		"eslint-plugin-vue": "^9.27.0"
+	}
+}
+  
