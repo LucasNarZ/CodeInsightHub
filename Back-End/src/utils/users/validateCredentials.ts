@@ -6,15 +6,15 @@ export default (credentials:User) => {
     keys.forEach((key:string) => {
         //check if there are any parameters other than stack = null and throw the error
         if(credentials[key] == null){
-            throw {name:"ParameterNullError"};
+            throw "ParameterNullError";
         }
         if(typeof credentials[key] !== "string" && key != "stack"){
-            throw {name:"WrongParameterTypeError"};
+            throw "WrongParameterTypeError";
         }
         
         //check if birchday is in correct format
         if(key == "nascimento" && !(birthRegex).test(credentials[key]) && typeof credentials[key] == "string"){
-            throw {name:"WrongBirthFormatError"};
+            throw "WrongBirthFormatError";
         }
     });
 }

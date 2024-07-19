@@ -11,19 +11,19 @@ export default async (req:ExpressRequest, res:ExpressResponse) => {
 
         //return the status OK with location
         res.status(201).location(`/pessoas/${result.id}`).json(result);
-    }catch(err:any){
-        if(err.name == "ParameterNullError"){
+    }catch(err){
+        if(err == "ParameterNullError"){
             //for null parameter
             res.status(422);
-            res.json(err.name);
-        }else if(err.name == "SequelizeUniqueConstraintError"){
+            res.json(err);
+        }else if(err == "SequelizeUniqueConstraintError"){
             //for unique constraint
             res.status(422);
-            res.json(err.name);
-        }else if(err.name == "WrongParameterTypeError" || err.name == "WrongBirthFormatError"){
+            res.json(err);
+        }else if(err == "WrongParameterTypeError" || err == "WrongBirthFormatError"){
             //for wrong type parameter
             res.status(400);
-            res.json(err.name);
+            res.json(err);
         }else{
             //for other errors
             console.error(err);
