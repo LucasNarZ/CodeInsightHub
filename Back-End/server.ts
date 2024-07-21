@@ -4,7 +4,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import helmet from 'helmet';
-
+import Pessoa from '@models/Pessoas';
 import RedisStore from 'connect-redis';
 import redisSessionClient from './redis-sessions';
 import session from "express-session";
@@ -51,8 +51,13 @@ import debugRoutes from "@routes/debugRoutes";
 app.use('/api', routes);
 app.use('/api/debug', debugRoutes);
 
+(async () => {
+    await Pessoa.sync({force:true});
+})();
+
+
 const numCPUs = 4;
-let server:unknown;
+let server:any;
 if(port != 4000){
     if(cluster.isPrimary){
         for(let i = 0;i < numCPUs; i++){

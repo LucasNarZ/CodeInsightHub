@@ -2,7 +2,7 @@ import { createUserDB, findByIdDB, findByTermDB, countUsersDB } from "@repositor
 import { personModel } from "@utils/users/personModel";
 import { v4 } from "uuid";
 
-const { server } = require("../server");
+import { server } from "../server";
 import supertest from "supertest";
 const agent = supertest.agent(server);
 
