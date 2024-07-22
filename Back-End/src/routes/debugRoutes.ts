@@ -13,11 +13,6 @@ router.get('/', async (req:Request, res:Response) => {
     
 })
 
-router.delete('/', async (req:Request, res:Response) => {
-    const users:User[] = await Pessoa.destroy({
-        truncate: true
-    }) as unknown as User[];
-    res.json(users);
-})
+
 
 export default router;
