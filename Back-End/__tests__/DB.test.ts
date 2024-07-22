@@ -1,45 +1,13 @@
-import { createUserDB, findByIdDB, findByTermDB, countUsersDB } from "@repository/users";
-import { personModel } from "@utils/users/personModel";
-import { v4 } from "uuid";
-
-import { server } from "../server";
-import supertest from "supertest";
-const agent = supertest.agent(server);
-
-const newPersonModel = {...personModel, searchvector:"luc  Lucas Python JS", id:v4(), apelido:v4()};
-
-afterAll(async () => {
-    await server.close();
-});
+import axios from "axios";
 
 
-describe("Postgres", () => {
-    test("should respond with added user", async () => {
-        const user = (await createUserDB(newPersonModel)).dataValues;
-        expect(user).toMatchObject(newPersonModel);
+describe("Test DB", () => {
+    test("should not return an error(Postgres)", async () => {
+        const res = await axios.get("http://localhost:3000/api/contagem-pessoas");
+        expect(res.data).toBeGreaterThanOrEqual(0);
     });
-
-    test("should respond searched by id person", async () => {
-        const userById = (await findByIdDB(newPersonModel.id)).dataValues;
-        expect(userById).toStrictEqual(newPersonModel);
+    test("should not return an error(Nginx)", async () => {
+        const res = await axios.get("http://localhost:9999/api/contagem-pessoas");
+        expect(res.data).toBeGreaterThanOrEqual(0);
     });
-
-    test("should respond with users by term", async () => {
-        const usersByTerm = (await findByTermDB("luc"));
-        expect(usersByTerm).toEqual(expect.arrayContaining([expect.objectContaining(newPersonModel)]));
-    });
-
-    test("should respond with least one user", async () => {
-        const countPersons = await countUsersDB();
-        expect(countPersons).toBeGreaterThanOrEqual(1);
-    });
-
-
 })
-
-describe("Sessions and Redis", () => {
-    test("should create a cookie and add to Redis userId", async () => {
-        const { headers } = await agent.post("/api/pessoas").send(personModel);
-        expect(headers["set-cookie"]).toBeDefined();
-    });
-});

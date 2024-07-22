@@ -51,10 +51,6 @@ import debugRoutes from "@routes/debugRoutes";
 app.use('/api', routes);
 app.use('/api/debug', debugRoutes);
 
-(async () => {
-    await Pessoa.sync({force:true});
-})();
-
 
 const numCPUs = 4;
 let server:any;

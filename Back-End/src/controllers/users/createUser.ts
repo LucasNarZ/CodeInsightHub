@@ -2,7 +2,9 @@ import { createUserService } from "@services/users";
 
 import createSession from "@utils/users/createSession";
 
-
+type Error = {
+    name:string
+}
 export default async (req:ExpressRequest, res:ExpressResponse) => {
     try{
         const user = req.body;
@@ -16,7 +18,7 @@ export default async (req:ExpressRequest, res:ExpressResponse) => {
             //for null parameter
             res.status(422);
             res.json(err);
-        }else if(err == "SequelizeUniqueConstraintError"){
+        }else if(JSON.stringify(err) == JSON.stringify({name:"SequelizeUniqueConstraintError"})){
             //for unique constraint
             res.status(422);
             res.json(err);

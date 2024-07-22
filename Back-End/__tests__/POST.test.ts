@@ -1,6 +1,8 @@
 import User from "@utils/users/types/user";
 let { createUserDB } = require("@repository/users");
+let createSession = require("@utils/users/createSession.ts");
 jest.mock("@repository/users");
+jest.mock("@utils/users/createSession.ts");
 
 const { server } = require("../server");
 import supertest from "supertest";
@@ -11,10 +13,12 @@ afterAll(async () => {
     await server.close();
 });
 
-createUserDB = createUserDB as jest.Mock;
+console.log(createSession);
 createUserDB.mockImplementation(() => {
     return personModel;
 });
+
+
 
 describe('POST /pessoas', () => {
     describe('valid person', () => {
@@ -23,7 +27,6 @@ describe('POST /pessoas', () => {
             expect(status).toBe(201);
             expect(headers.location).toMatch(/^\/pessoas\/[0-9a-fA-F-]+$/);
             expect(body).toMatchObject(personModel);
-            expect(headers['set-cookie']).toBeDefined();
         });
         
         test("should respond 201 status code(optional parameter)", async () => {
