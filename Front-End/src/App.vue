@@ -3,6 +3,7 @@
     import Input from "./components/Input.vue";
     import List from "./components/List.vue";
     import { FormKit } from "@formkit/vue";
+	import axios from "axios";
     interface Credentials {
         apelido: String;
         nome: String;
@@ -14,9 +15,14 @@
     "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-[400px]";
     const labelClass = "block mb-2 text-lg-100 font-medium text-black";
 
-    function register(credentials: Credentials) {
+    async function register(credentials: Credentials) {
 		credentials.stack = list;
-        console.log(credentials);
+        try{
+			const res = await axios.post("http://localhost:9999/api/pessoas", credentials);
+			console.log(res.data);
+		}catch(err){
+			console.error(err);
+		}
     }
     function getList(newList:string[]){
 		list = newList;
