@@ -1,10 +1,8 @@
 import 'module-alias/register';
 import express from "express";
-
 import cors from "cors";
 import dotenv from "dotenv";
 import helmet from 'helmet';
-import Pessoa from '@models/Pessoas';
 import RedisStore from 'connect-redis';
 import redisSessionClient from './redis-sessions';
 import session from "express-session";
@@ -15,9 +13,12 @@ const app = express()
 
 dotenv.config();
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+    origin:"https://localhost:5173",
+    credentials:true
+}));
 app.use(express.json());
-// app.set('trust proxy', 1);
+app.set('trust proxy', 1);
 
 declare module 'express-session' {
     export interface SessionData {
@@ -39,9 +40,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false,
-        httpOnly: true,
-        maxAge: 360000
+        secure: true,
+        //httpOnly: true,
+        domain:"localhost:5173",
+        maxAge: 360000,
+        sameSite:"none"
     }
 }));
 
