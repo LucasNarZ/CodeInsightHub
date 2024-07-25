@@ -14,7 +14,7 @@ const app = express()
 dotenv.config();
 app.use(helmet());
 app.use(cors({
-    origin:"https://localhost:5173",
+    origin:"https://localhost",
     credentials:true
 }));
 app.use(express.json());
@@ -41,8 +41,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: true,
-        //httpOnly: true,
-        domain:"localhost:5173",
+        domain:"localhost",
         maxAge: 360000,
         sameSite:"none"
     }
