@@ -11,5 +11,5 @@ export default async (user:User) => {
     
     //creates a new user in the database
     const result = await createUserDB(user);
-    return result;
+    return user;
 }

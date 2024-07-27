@@ -22,7 +22,7 @@ app.set('trust proxy', 1);
 
 declare module 'express-session' {
     export interface SessionData {
-      sessionId: string;
+      userId: string;
     }
 }
 
@@ -42,8 +42,9 @@ app.use(session({
     cookie: {
         secure: true,
         domain:"localhost",
+        httpOnly:true,
         maxAge: 360000,
-        sameSite:"none"
+        sameSite:"strict"
     }
 }));
 
