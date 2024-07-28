@@ -1,0 +1,59 @@
+<script setup lang="ts">
+    //@ts-ignore
+    import Input from "./components/Input.vue";
+    import { FormKit } from "@formkit/vue";
+	import axios from "axios";
+    interface Credentials {
+        email:String;
+        password:String;
+    }
+    const inputClass =
+    "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-[400px]";
+    const labelClass = "block mb-2 text-lg-100 font-medium text-black";
+
+    async function register(credentials: Credentials) {
+        try{
+			const res = await axios.post("https://localhost/api/register", credentials);
+			console.log(res.data);
+		}catch(err){
+			console.error(err);
+		}
+    }
+
+</script>
+
+<template>
+  <FormKit
+    type="form"
+    form-class="flex items-center flex-col"
+    @submit="register"
+    :submit-attrs="{
+      label: 'Submit',
+      inputClass:
+        'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 mb-15 mt-10',
+    }"
+  >
+    <div class="max-w-[400px] w-full flex flex-col items-center space-y-10">
+      <h1 class="text-4xl mt-10">Register</h1>
+      <FormKit
+        name="email"
+        type="email"
+        id="email"
+        :input-class="inputClass"
+        placeholder="exemple@exemple.com"
+        label="email"
+        :label-class="labelClass"
+      />
+      <FormKit
+        name="password"
+        type="password"
+        id="password"
+        :input-class="inputClass"
+        placeholder=""
+        label="password"
+        :label-class="labelClass"
+      />
+      <p>Already registered?<RouterLink to="/login" class="text-blue-300">Log In</RouterLink></p>
+    </div>
+  </FormKit>
+</template>

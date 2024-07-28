@@ -9,6 +9,8 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   {rules: {
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "no-explicit-any": "off",
+    "no-var-requires": "off"
   }}
 ];

@@ -1,4 +1,4 @@
-import User from "@utils/users/types/user";
+import User from "@utils/types/user";
 import Pessoa from "@models/Pessoas";
 import express, { Request, Response } from 'express';
 const router = express.Router();

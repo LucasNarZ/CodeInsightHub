@@ -1,4 +1,4 @@
-import User from "@utils/users/types/user";
+import User from "@utils/types/user";
 import Pessoas from "@models/Pessoas"
 
 export default async (userInfo:User) => {

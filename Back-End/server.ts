@@ -3,12 +3,15 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import helmet from 'helmet';
+import passport from 'passport';
 import RedisStore from 'connect-redis';
 import redisSessionClient from './redis-sessions';
 import session from "express-session";
+import Pessoa from '@models/Pessoas';
+import Admin from '@models/Admin';
 
 import cluster from 'cluster';
-
+passport.initialize();
 const app = express()
 
 dotenv.config();
@@ -25,6 +28,8 @@ declare module 'express-session' {
       userId: string;
     }
 }
+
+
 
 
 const port = process.env.HTTP_PORT ?? 4000;
@@ -51,8 +56,8 @@ app.use(session({
 import routes from '@routes/routes';
 import debugRoutes from "@routes/debugRoutes";
 
-app.use('/api', routes);
-app.use('/api/debug', debugRoutes);
+app.use('/', routes);
+app.use('/debug', debugRoutes);
 
 
 const numCPUs = 4;

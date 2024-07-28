@@ -1,4 +1,4 @@
-import User from "@utils/users/types/user";
+import User from "@utils/types/user";
 
 export default (credentials:User) => {
     const birthRegex = /^\d{4}-\d{2}-\d{2}$/;

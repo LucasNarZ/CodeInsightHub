@@ -1,7 +1,7 @@
 import { createUserDB } from "@repository/users";
-import validateCredentials from "@utils/users/validateCredentials";
+import validateCredentials from "@utils/validateSurveyUserCredentials";
 import { v4 } from "uuid";
-import User from "@utils/users/types/user";
+import User from "@utils/types/user";
 
 export default async (user:User) => {
     user.id = v4();
@@ -10,6 +10,6 @@ export default async (user:User) => {
     validateCredentials(user);
     
     //creates a new user in the database
-    const result = await createUserDB(user);
+    await createUserDB(user);
     return user;
 }
