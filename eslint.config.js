@@ -11,6 +11,7 @@ export default [
   {rules: {
     "no-unused-vars": "warn",
     "no-explicit-any": "off",
-    "no-var-requires": "off"
+    "no-var-requires": "off",
+    "semi-style": ["error", "last"]
   }}
 ];

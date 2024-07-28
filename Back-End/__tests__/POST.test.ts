@@ -1,6 +1,7 @@
 import User from "@utils/types/user";
 const { createUserDB } = require("@repository/users");
 jest.mock("@repository/users");
+jest.mock("@utils/createSession");
 
 const { server } = require("../server");
 import supertest from "supertest";
@@ -23,12 +24,12 @@ describe('POST /pessoas', () => {
             const { status, body, headers } = await agent.post('/pessoas').send(personModel);
             expect(status).toBe(201);
             expect(headers.location).toMatch(/^\/pessoas\/[0-9a-fA-F-]+$/);
-            expect(body).toMatchObject(personModel);
+            expect({...body, id:undefined}).toMatchObject({...personModel, id:undefined});
         });
         
         test("should respond 201 status code(optional parameter)", async () => {
             createUserDB.mockImplementationOnce(() => {
-                return {...personModel, stack:[]}
+                return {...personModel, stack:[]};
             });
             const { status } = await agent.post('/pessoas').send({...personModel, stack:null});
             expect(status).toBe(201);

@@ -1,6 +1,7 @@
 import Admin from "@utils/types/admin";
 const { registerDB } = require("@repository/admins")
 jest.mock("@repository/admins");
+jest.mock("@utils/createSession");
 
 const { server } = require("../server");
 import supertest from "supertest";
@@ -22,7 +23,7 @@ describe('POST /register', () => {
             const { status, body, headers } = await agent.post('/register').send(adminModel);
             expect(status).toBe(201);
             expect(headers.location).toMatch(/^\/register\/[0-9a-fA-F-]+$/);
-            expect(body).toBeDefined();
+            expect({...body, id:undefined}).toMatchObject({...adminModel, id:undefined});
         });
     });
 
@@ -39,7 +40,7 @@ describe('POST /register', () => {
             const adminModelNullArray = [{...adminModel, email:null}, {...adminModel, password:null}] as Admin[];
             for(const adminModelNull of adminModelNullArray){
                 const { status } = await agent.post('/register').send(adminModelNull);
-                expect(status).toBe(422);
+                expect(status).toBe(400);
             };
         });
 

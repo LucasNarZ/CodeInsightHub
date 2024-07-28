@@ -4,8 +4,6 @@ export default async (req:ExpressRequest, res:ExpressResponse) => {
     try{
         const user = req.body;
         const result = await createUserService(user);
-        req.session.userId = result.id;
-
         //return the status OK with location
         res.status(201).location(`/pessoas/${result.id}`).json(result);
     }catch(err){
