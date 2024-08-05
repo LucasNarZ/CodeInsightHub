@@ -1,10 +1,10 @@
-const { findByTermDB } = require("@repository/users");
+import { findByTermDB } from "@repository/users";
 jest.mock("@repository/users");
-const { server } = require("../server");
+import { server } from "../server";
 import supertest from "supertest";
 const agent = supertest.agent(server);
 
-const { personModel } = require("@utils/personModel");
+import { personModel } from "@utils/personModel";
 const searchedPersons = new Array(10).fill(personModel);
 
 afterAll(async () => {
@@ -17,7 +17,7 @@ describe("GET /pessoas?t=[:search term]", () => {
             (findByTermDB as jest.Mock).mockImplementationOnce(() => {
                 return searchedPersons;
             });
-            const { body } = await agent.get("/pessoas?t=luc");
+            const { body } = await agent.get("/api/pessoas?t=luc");
             expect(body).toEqual(searchedPersons);
 
         })
@@ -29,7 +29,7 @@ describe("GET /pessoas?t=[:search term]", () => {
                 return [];
             });
 
-            const { body, status } = await agent.get("/pessoas?t=luc");
+            const { body, status } = await agent.get("/api/pessoas?t=luc");
             expect(body).toEqual([]);
             expect(status).toBe(200);
         })

@@ -1,8 +1,8 @@
-const { countUsersDB } = require("@repository/users");
+import { countUsersDB } from "@repository/users";
 jest.mock("@repository/users");
 
 
-const { server } = require("../server");
+import { server } from "../server";
 import supertest from "supertest";
 const agent = supertest.agent(server);
 
@@ -16,7 +16,7 @@ describe("/contagem pessoas", () => {
         (countUsersDB as jest.Mock).mockImplementationOnce(() => {
             return 10;
         });
-        const res = await agent.get("/contagem-pessoas");
+        const res = await agent.get("/api/contagem-pessoas");
         expect(res.body).toBe(10);
     })
 })
