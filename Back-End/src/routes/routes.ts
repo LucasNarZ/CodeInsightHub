@@ -19,4 +19,8 @@ router.post("/register", registerAdmin);
 
 router.get("/login", loginAdmin);
 
+router.get("/", (req:ExpressRequest, res:ExpressResponse) => {
+    res.send("Hello");
+})
+
 export default router;

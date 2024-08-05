@@ -56,8 +56,8 @@ app.use(session({
 import routes from '@routes/routes';
 import debugRoutes from "@routes/debugRoutes";
 
-app.use('/', routes);
-app.use('/debug', debugRoutes);
+app.use('/api', routes);
+app.use('/api/debug', debugRoutes);
 
 
 const numCPUs = 4;
