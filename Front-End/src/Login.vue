@@ -13,7 +13,7 @@
 
     async function login(credentials: Credentials) {
         try{
-			const res = await axios.post("https://localhost/api/login", credentials);
+			const res = await axios.post("http://localhost/api/login", credentials);
 			console.log(res.data);
 		}catch(err){
 			console.error(err);

@@ -13,7 +13,7 @@
 
     async function register(credentials: Credentials) {
         try{
-			const res = await axios.post("https://localhost/api/register", credentials);
+			const res = await axios.post("http://localhost/api/register", credentials);
 			console.log(res.data);
 		}catch(err){
 			console.error(err);
