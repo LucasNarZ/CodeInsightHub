@@ -1,3 +1,6 @@
 export default (req:ExpressRequest, userId:string) => {
-    req.session.userId = userId;
+    if(!req.session.userId){
+        req.session.userId = userId;
+    }
+    
 }

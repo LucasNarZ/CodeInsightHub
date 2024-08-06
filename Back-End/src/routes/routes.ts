@@ -3,8 +3,6 @@ import { registerAdmin, loginAdmin } from "@controllers/admins";
 import verifySession from "@utils/middlewares/verifySession";
 import { Router }  from "express";
 
-
-
 const router = Router();
 
 router.post('/pessoas', createUser);
@@ -17,10 +15,6 @@ router.get("/contagem-pessoas", countUsers);
 
 router.post("/register", registerAdmin);
 
-router.get("/login", loginAdmin);
-
-router.get("/", (req:ExpressRequest, res:ExpressResponse) => {
-    res.send("Hello");
-})
+router.post("/login", loginAdmin);
 
 export default router;
