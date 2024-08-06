@@ -6,7 +6,6 @@ export default async (email:string, password:string) => {
     if(!admin){
         throw new Error("WrongEmailOrPassword");;
     }
-    console.log(admin)
     if(!(await argon2.verify(admin.password, password))){
         throw new Error("WrongEmailOrPassword");;
     }
