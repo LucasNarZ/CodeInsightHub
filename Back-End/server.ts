@@ -17,7 +17,7 @@ const app = express()
 dotenv.config();
 app.use(helmet());
 app.use(cors({
-    origin:"https://localhost",
+    origin:"http://localhost",
     credentials:true
 }));
 app.use(express.json());
@@ -28,9 +28,6 @@ declare module 'express-session' {
       userId: string;
     }
 }
-
-
-
 
 const port = process.env.HTTP_PORT ?? 4000;
 
@@ -45,7 +42,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true,
+        secure: false,
         domain:"localhost",
         httpOnly:true,
         maxAge: 360000,
