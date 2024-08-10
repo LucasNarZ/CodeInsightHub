@@ -1,0 +1,31 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up SSH
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Deploy to the server
+      - name: Deploy to Production Server
+        run: |
+          ssh lucasnarloch123@35.239.219.217 << 'EOF'
+          cd Coming-Back-Node
+          git pull --rebase origin main
+          sudo docker-compose down
+          sudo npm run install-all
+          sudo docker-compose up -d --build
+          EOF
