@@ -58,7 +58,7 @@ app.use('/api/debug', debugRoutes);
 
 //good code yeah
 
-//a really good code
+
 const numCPUs = 4;
 let server:any;
 if(port != 4000){
