@@ -1,11 +1,17 @@
 import { findByTermDB } from "@repository/users";
+import verifySession from "@utils/middlewares/verifySession";
 jest.mock("@repository/users");
+jest.mock("@utils/middlewares/verifySession");
 import { server } from "../server";
 import supertest from "supertest";
 const agent = supertest.agent(server);
 
 import { personModel } from "@utils/personModel";
 const searchedPersons = new Array(10).fill(personModel);
+
+(verifySession as jest.Mock).mockImplementation((req:ExpressRequest, res:ExpressResponse, next:ExpressNext) => {
+    next();
+});
 
 afterAll(async () => {
     await server.close();

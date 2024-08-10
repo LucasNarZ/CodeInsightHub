@@ -11,6 +11,7 @@ export default async (req:ExpressRequest, res:ExpressResponse) => {
         if(err instanceof Error && err.message === "WrongEmailOrPassword"){
             res.status(401).json({message:"Wrong Email or Password"});
         }else{
+            console.log(err);
             res.status(500).json({message:"Server Error"});
         }
     }

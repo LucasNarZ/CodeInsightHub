@@ -16,10 +16,19 @@ const app = express()
 
 dotenv.config();
 app.use(helmet());
-app.use(cors({
-    origin:"http://localhost",
-    credentials:true
-}));
+app.use(cors());
+// if(process.env.NODE_ENV == "production"){
+//     app.use(cors({
+//         origin:"http://34.29.27.43/",
+//         credentials:true
+//     }));
+// }else{
+//     app.use(cors({
+//         origin:"http://localhost",
+//         credentials:true
+//     }));
+// }
+
 app.use(express.json());
 app.set('trust proxy', 1);
 
@@ -35,20 +44,39 @@ const redisStore = new RedisStore({
     client: redisSessionClient,
 });
 
-app.use(session({
-    name:"sessionId",
-    store: redisStore,
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        domain:"localhost",
-        httpOnly:true,
-        maxAge: 360000,
-        sameSite:"strict"
-    }
-}));
+
+if(process.env.NODE_ENV == "production"){
+    app.use(session({
+        name:"sessionId",
+        store: redisStore,
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false,
+            domain:"http://34.29.27.43/",
+            httpOnly:true,
+            maxAge: 360000,
+            sameSite:"strict"
+        }
+    }));
+}else{
+    app.use(session({
+        name:"sessionId",
+        store: redisStore,
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false,
+            domain:"localhost",
+            httpOnly:true,
+            maxAge: 360000,
+            sameSite:"strict"
+        }
+    }));
+};
+
 
 import routes from '@routes/routes';
 import debugRoutes from "@routes/debugRoutes";
@@ -56,7 +84,14 @@ import debugRoutes from "@routes/debugRoutes";
 app.use('/api', routes);
 app.use('/api/debug', debugRoutes);
 
-//good code yeah
+
+if(port != 4000){
+    (async () => {
+        await Pessoa.sync();
+        await Admin.sync();
+    })()
+}
+
 
 //asdasd
 const numCPUs = 4;

@@ -1,11 +1,15 @@
 import { findByIdDB } from "@repository/users";
-
+import verifySession from "@utils/middlewares/verifySession";
 jest.mock("@repository/users");
-
+jest.mock("@utils/middlewares/verifySession");
 import { personModel } from "@utils/personModel";
 import { server } from "../server";
 import supertest from "supertest";
 const agent = supertest.agent(server);
+
+(verifySession as jest.Mock).mockImplementation((req:ExpressRequest, res:ExpressResponse, next:ExpressNext) => {
+    next();
+});
 
 afterAll(async () => {
     await server.close();

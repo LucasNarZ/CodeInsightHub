@@ -4,7 +4,12 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"install-all": "npm i && cd Front-End && npm i && cd .. && cd Back-End && npm i"
+		"install-all": "npm i && cd Front-End && npm i && cd .. && cd Back-End && npm i",
+		"up:prod":"docker compose -f docker-compose.prod.yml up -d --build",
+		"up:dev":"docker compose -f docker-compose.dev.yml up -d --build",
+		"down:prod":"docker compose -f docker-compose.prod.yml down",
+		"down:dev":"docker compose -f docker-compose.dev.yml up down",
+		"test":"cd Back-End && NODE_ENV=test SESSION_SECRET=a npx jest && cd .."
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.7.0",
