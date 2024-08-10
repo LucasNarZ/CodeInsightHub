@@ -84,6 +84,7 @@ import debugRoutes from "@routes/debugRoutes";
 app.use('/api', routes);
 app.use('/api/debug', debugRoutes);
 
+
 if(port != 4000){
     (async () => {
         await Pessoa.sync();
@@ -91,6 +92,8 @@ if(port != 4000){
     })()
 }
 
+
+//asdasd
 const numCPUs = 4;
 let server:any;
 if(port != 4000){
