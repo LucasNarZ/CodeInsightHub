@@ -17,6 +17,7 @@
 
     async function register(credentials: Credentials) {
 		credentials.stack = list;
+    try{
 		let res;
 		if(import.meta.env.VITE_ENV == "production"){
 			res = await axios.post("http://34.29.27.43/api/pessoas", credentials);
@@ -24,6 +25,10 @@
 			res = await axios.post("http://localhost/api/pessoas", credentials);
 		}
 		console.log(res?.data);
+    }catch(err){
+		console.log(err);
+	}
+		
     }
     function getList(newList:string[]){
 		list = newList;
