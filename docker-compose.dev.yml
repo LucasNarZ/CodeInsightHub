@@ -17,7 +17,9 @@ services:
       - POOL_SIZE=30
       - SESSION_SECRET=${SESSION_SECRET}
       - NODE_ENV=${NODE_ENV}
-      - REDIS_URL=${REDIS_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     depends_on:
       - postgres
       - redis-sessions
@@ -27,6 +29,12 @@ services:
     <<: *api
     environment:
       - HTTP_PORT=3001
+      - POOL_SIZE=30
+      - SESSION_SECRET=${SESSION_SECRET}
+      - NODE_ENV=${NODE_ENV}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "3001:3001"
   nginx:

@@ -44,6 +44,7 @@ const redisStore = new RedisStore({
     client: redisSessionClient,
 });
 
+
 if(process.env.NODE_ENV == "production"){
     app.use(session({
         name:"sessionId",
@@ -74,7 +75,7 @@ if(process.env.NODE_ENV == "production"){
             sameSite:"strict"
         }
     }));
-}
+};
 
 
 import routes from '@routes/routes';
@@ -83,6 +84,12 @@ import debugRoutes from "@routes/debugRoutes";
 app.use('/api', routes);
 app.use('/api/debug', debugRoutes);
 
+if(port != 4000){
+    (async () => {
+        await Pessoa.sync();
+        await Admin.sync();
+    })()
+}
 
 const numCPUs = 4;
 let server:any;

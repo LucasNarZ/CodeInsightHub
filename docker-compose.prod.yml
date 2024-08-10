@@ -17,7 +17,9 @@ services:
       - POOL_SIZE=30
       - SESSION_SECRET=${SESSION_SECRET}
       - NODE_ENV=${NODE_ENV}
-      - REDIS_URL=${REDIS_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     depends_on:
       - postgres
       - redis-sessions
