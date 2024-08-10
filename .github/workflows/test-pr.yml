@@ -44,8 +44,11 @@ jobs:
 
         run: docker compose -f docker-compose.dev.yml up -d --build
       
+      - name: sync DB
+        run: cd Back-End && npm run sync
+        
       - name: Run tests
-        run: cd Back-End && npm run test
+        run: npm run test
       
 
 

@@ -10,7 +10,8 @@
     "test db": "NODE_ENV=test npx jest ./__tests__/DB.test.ts",
     "up": "docker compose up -d",
     "load": "k6 run load.js",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "sync":"npx tsx syncModels.ts"
   },
   "author": "",
   "license": "ISC",
