@@ -16,10 +16,7 @@ const app = express()
 
 dotenv.config();
 app.use(helmet());
-app.use(cors({
-    origin:"http://34.29.27.43/",
-    credentials:true
-}));
+app.use(cors());
 // if(process.env.NODE_ENV == "production"){
 //     app.use(cors({
 //         origin:"http://34.29.27.43/",
