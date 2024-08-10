@@ -16,17 +16,21 @@ const app = express()
 
 dotenv.config();
 app.use(helmet());
-if(process.env.NODE_ENV == "production"){
-    app.use(cors({
-        origin:"http://34.29.27.43/",
-        credentials:true
-    }));
-}else{
-    app.use(cors({
-        origin:"http://localhost",
-        credentials:true
-    }));
-}
+app.use(cors({
+    origin:"http://34.29.27.43/",
+    credentials:true
+}));
+// if(process.env.NODE_ENV == "production"){
+//     app.use(cors({
+//         origin:"http://34.29.27.43/",
+//         credentials:true
+//     }));
+// }else{
+//     app.use(cors({
+//         origin:"http://localhost",
+//         credentials:true
+//     }));
+// }
 
 app.use(express.json());
 app.set('trust proxy', 1);
