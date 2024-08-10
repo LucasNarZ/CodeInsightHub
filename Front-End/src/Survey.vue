@@ -17,12 +17,13 @@
 
     async function register(credentials: Credentials) {
 		credentials.stack = list;
-        try{
-			const res = await axios.post("http://localhost/api/pessoas", credentials);
-			console.log(res.data);
-		}catch(err){
-			console.error(err);
+		let res;
+		if(process.env.VUE_APP_ENV == "production"){
+			res = await axios.post("http://34.29.27.43/api/pessoas", credentials);
+		}else{
+			res = await axios.post("http://localhost/api/pessoas", credentials);
 		}
+		console.log(res?.data);
     }
     function getList(newList:string[]){
 		list = newList;

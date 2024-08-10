@@ -13,8 +13,14 @@
 
     async function login(credentials: Credentials) {
         try{
-			const res = await axios.post("http://localhost/api/login", credentials);
-			console.log(res.data);
+			let res;
+			if(process.env.VUE_APP_ENV == "production"){
+				res = await axios.post("http://34.29.27.43/api/login", credentials);
+			}else{
+				res = await axios.post("http://localhost/api/login", credentials);
+			}
+			
+			console.log(res?.data);
 		}catch(err){
 			console.error(err);
 		}
