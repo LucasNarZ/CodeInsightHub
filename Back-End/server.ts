@@ -54,7 +54,7 @@ if(process.env.NODE_ENV == "production"){
         saveUninitialized: false,
         cookie: {
             secure: false,
-            domain:"http://34.29.27.43/",
+            domain:"http://" + process.env.PUBLIC_IP + "/",
             httpOnly:true,
             maxAge: 360000,
             sameSite:"strict"

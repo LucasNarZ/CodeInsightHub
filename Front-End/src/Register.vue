@@ -15,7 +15,7 @@
         try{
 			let res;
           	if(import.meta.env.VITE_ENV == "production"){
-          		res = await axios.post("http://34.29.27.43/api/register", credentials);
+          		res = await axios.post("http://" + import.meta.env.VITE_PUBLIC_IP + "api/register", credentials);
         	}else{
           		res = await axios.post("http://localhost/api/register", credentials);
         	}
