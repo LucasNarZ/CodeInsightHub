@@ -5,7 +5,7 @@ services:
       context: ./Front-End
       dockerfile: Dockerfile
     environment:
-      - VUE_APP_ENV=${NODE_ENV}
+      - VITE_ENV=${NODE_ENV}
     ports:
       - "5173:5173"
   api1: &api

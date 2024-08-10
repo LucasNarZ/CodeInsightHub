@@ -18,7 +18,7 @@
     async function register(credentials: Credentials) {
 		credentials.stack = list;
 		let res;
-		if(process.env.VUE_APP_ENV == "production"){
+		if(import.meta.env.VITE_ENV == "production"){
 			res = await axios.post("http://34.29.27.43/api/pessoas", credentials);
 		}else{
 			res = await axios.post("http://localhost/api/pessoas", credentials);
