@@ -22,7 +22,7 @@ jobs:
       # Deploy to the server
       - name: Deploy to Production Server
         run: |
-          ssh -t lucasnarloch123@35.239.219.217 
+          ssh -tt lucasnarloch123@35.239.219.217 
           cd Coming-Back-Node
           git pull --rebase origin main
           sudo docker-compose down
