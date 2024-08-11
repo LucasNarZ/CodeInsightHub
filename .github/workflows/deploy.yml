@@ -31,6 +31,7 @@ jobs:
           ssh-keyscan 35.239.219.217 >> ~/.ssh/known_hosts
           ssh -tt lucasnarloch123@35.239.219.217  << 'EOF'
           cd Coming-Back-Node
+          git checkout -- .
           git pull --rebase origin main
           sudo docker-compose down
           sudo npm run install-all
