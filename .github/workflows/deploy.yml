@@ -20,13 +20,17 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # Deploy to the server
-      - name: Deploy to Production Server
+      - name: Connect to server
         run: |
           mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
           ssh-keyscan 35.239.219.217 >> ~/.ssh/known_hosts
           eval $(ssh-agent)
           ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
           ssh -tt lucasnarloch123@35.239.219.217 
+          EOF
+
+      - name: Deploy
+        run: |
           cd Coming-Back-Node
           git pull --rebase origin main
           sudo docker-compose down
