@@ -26,7 +26,7 @@ jobs:
           ssh-keyscan 35.239.219.217 >> ~/.ssh/known_hosts
           eval $(ssh-agent)
           ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-          ssh -tt lucasnarloch123@35.239.219.217 
+          ssh -tt lucasnarloch123@35.239.219.217  << 'EOF'
           EOF
 
       - name: Deploy
