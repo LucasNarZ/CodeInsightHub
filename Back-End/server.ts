@@ -80,10 +80,11 @@ if(process.env.NODE_ENV == "production"){
 
 import routes from '@routes/routes';
 import debugRoutes from "@routes/debugRoutes";
+import metricRoute from "@routes/metricRoute";
 
 app.use('/api', routes);
 app.use('/api/debug', debugRoutes);
-
+app.use("/api/metrics", metricRoute);
 
 if(port != 4000){
     (async () => {
@@ -93,7 +94,6 @@ if(port != 4000){
 }
 
 
-//asdasd
 const numCPUs = 4;
 let server:any;
 if(port != 4000){
