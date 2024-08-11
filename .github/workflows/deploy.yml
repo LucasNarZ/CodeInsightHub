@@ -22,6 +22,10 @@ jobs:
       # Deploy to the server
       - name: Deploy to Production Server
         run: |
+          mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
+          ssh-keyscan 35.239.219.217 >> ~/.ssh/known_hosts
+          eval $(ssh-agent)
+          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
           ssh -tt lucasnarloch123@35.239.219.217 
           cd Coming-Back-Node
           git pull --rebase origin main
